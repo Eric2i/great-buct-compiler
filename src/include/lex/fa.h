@@ -5,10 +5,16 @@
 #ifndef GREAT_BUCT_COMPILER_FA_H
 #define GREAT_BUCT_COMPILER_FA_H
 
-#include "Graph.h"
+#include "graph.h"
+namespace gbc {
+namespace lex {
 
 class FA {
 
 };
+
+} // lex
+} // gbc
+
 
 #endif //GREAT_BUCT_COMPILER_FA_H

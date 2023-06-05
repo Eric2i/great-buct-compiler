@@ -5,11 +5,17 @@
 #ifndef GREAT_BUCT_COMPILER_LEXICALANALYZER_H
 #define GREAT_BUCT_COMPILER_LEXICALANALYZER_H
 
-#include "DFA.h"
-#include "Regex.h"
+#include "dfa.h"
+#include "regex.h"
+namespace gbc {
+namespace lex {
 
 class LexicalAnalyzer {
 
 };
+
+} // lex
+} // gbc
+
 
 #endif //GREAT_BUCT_COMPILER_LEXICALANALYZER_H

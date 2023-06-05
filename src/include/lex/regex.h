@@ -5,9 +5,16 @@
 #ifndef GREAT_BUCT_COMPILER_REGEX_H
 #define GREAT_BUCT_COMPILER_REGEX_H
 
-#include "Token.h"
+#include "token.h"
+
+namespace gbc {
+namespace lex {
 
 class Regex {
 };
+
+} // lex
+} // gbc
+
 
 #endif //GREAT_BUCT_COMPILER_REGEX_H

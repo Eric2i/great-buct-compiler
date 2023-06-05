@@ -5,10 +5,15 @@
 #ifndef GREAT_BUCT_COMPILER_DFA_H
 #define GREAT_BUCT_COMPILER_DFA_H
 
-#include "FA.h"
+#include "fa.h"
+namespace gbc {
+namespace lex {
 
-class DFA: public FA {
+class DFA : public FA {
 
 };
+
+} // lex
+} // gbc
 
 #endif //GREAT_BUCT_COMPILER_DFA_H
