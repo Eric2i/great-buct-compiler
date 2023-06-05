@@ -6,3 +6,12 @@
 #define GREAT_BUCT_COMPILER_ERRORMSG_H
 
 #endif //GREAT_BUCT_COMPILER_ERRORMSG_H
+namespace gbc {
+namespace lex {
+
+class ErrorMessage {
+
+};
+
+} // lex
+} // gbc

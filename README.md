@@ -1,4 +1,4 @@
-# great-buct-compiler
+# GBC：the great-buct-compiler
 
  _Team project of Compiler Principles course_
 

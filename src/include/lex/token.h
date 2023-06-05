@@ -4,9 +4,15 @@
 
 #ifndef GREAT_BUCT_COMPILER_TOKEN_H
 #define GREAT_BUCT_COMPILER_TOKEN_H
+namespace gbc {
+namespace lex {
 
 class Token {
 
 };
+
+} // lex
+} // gbc
+
 
 #endif //GREAT_BUCT_COMPILER_TOKEN_H
