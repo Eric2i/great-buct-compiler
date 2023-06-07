@@ -17,3 +17,5 @@ add_library(GBC_SRC STATIC
 include_directories(third_party/doctest/doctest/doctest.h)
 
 add_executable(${PROJECT_NAME} main.cpp)
+
+target_link_libraries(${PROJECT_NAME} GBC_SRC)
