@@ -3,8 +3,8 @@
 //
 
 /*
- * 我们希望将有关图的一般性数据结构和功能函数抽象为两个类,
- * 此后有关某类具体图数据结构的构建将通过引用本文件实现其高层功能
+ * 鎴戜滑甯屾湜灏嗘湁鍏冲浘鐨勪竴鑸€ф暟鎹粨鏋勫拰鍔熻兘鍑芥暟鎶借薄涓轰袱涓被,
+ * 姝ゅ悗鏈夊叧鏌愮被鍏蜂綋鍥炬暟鎹粨鏋勭殑鏋勫缓灏嗛€氳繃寮曠敤鏈枃浠跺疄鐜板叾楂樺眰鍔熻兘
  */
 
 #ifndef GREAT_BUCT_COMPILER_GRAPH_H
@@ -23,30 +23,36 @@ typedef char label_t;
 
 template<class state_t>
 class GenericEdge {
- private:
+
+public:
+
+  GenericEdge() = default;
+
   edge_id _id;
   label_t _label;
   state_t _destination;
- public:
+
   edge_id id(); // get edge id
-  state_t dest(); // get the destination of this edge
-  label_t label(); // get the label of this edge
+  state_t dest(edge_id x); // get the destination of this edge
+  label_t label(edge_id x); // get the label of this edge
 };
 
 template<class edge_t>
 class GenericState {
- private:
+
+public:
+
+  GenericState() = default;
+
   state_id _id;
   std::vector<edge_t> _edges;
- public:
+
   state_id id(); // get state id
-  edge_t outEdges(); // get out edges
-  Result addEdges(); // add new out edge
+  edge_t outEdges(state_id x); // get out edges
+  Result addEdges(state_id x, state_id y); // add new out edge
 };
 
 } // lex
 } // gbc
-
-
 
 #endif //GREAT_BUCT_COMPILER_GRAPH_H

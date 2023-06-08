@@ -6,11 +6,23 @@
 #define GREAT_BUCT_COMPILER_DFA_H
 
 #include "fa.h"
+#include <map>
+#include <set>
+#include <vector>
+
+typedef int state_type;
+typedef int NFAState;
+typedef char label_type;
+
 namespace gbc {
 namespace lex {
 
 class DFA : public FA {
 
+public:
+
+    void NFA2DFA();
+    void simplify();
 };
 
 } // lex
