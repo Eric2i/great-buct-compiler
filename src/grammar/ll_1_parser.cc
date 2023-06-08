@@ -4,7 +4,17 @@
 
 #include "../include/grammar/ll_1_parser.h"
 
-namespace gbc {
-namespace grammar {
-} // gbc
+namespace gbc::grammar {
+
+//void LL1Parser::Preprocess() {
+//
+//}
+//void LL1Parser::BuildAnalysisTable() {
+//
+//}
+//void LL1Parser::Analyze() {
+//
+//}
+
+
 } // grammar
