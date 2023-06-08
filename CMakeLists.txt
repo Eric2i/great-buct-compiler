@@ -3,7 +3,8 @@ project(great_buct_compiler)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_library(GBC_SRC STATIC
+set(GBC_SRC
+        main.cpp
         src/include/lex/token.h
         src/include/lex/error_message.h
         src/include/lex/dfa.h
@@ -12,8 +13,22 @@ add_library(GBC_SRC STATIC
         src/include/lex/lexical_analyzer.h
         src/include/lex/nfa.h
         src/include/lex/regex.h
-        src/grammar/grammar_analyzer.cc src/include/grammar/grammar_analyzer.h src/grammar/grammar_parser.cc src/include/grammar/grammar_parser.h src/grammar/ll_1_parser.cc src/include/grammar/ll_1_parser.h)
+        src/include/grammar/grammar_analyzer.h
+        src/include/grammar/grammar_parser.h
+        src/include/grammar/ll_1_parser.h
+        src/grammar/grammar_analyzer.cc
+        src/grammar/grammar_parser.cc
+        src/grammar/ll_1_parser.cc
+        test/grammar/read_from_file.cc test/grammar/read_from_file.cc)
 
-include_directories(third_party/doctest/doctest/doctest.h)
+add_executable(${PROJECT_NAME} ${GBC_SRC})
 
-add_executable(${PROJECT_NAME} main.cpp)
+find_package(spdlog CONFIG REQUIRED)
+find_package(nlohmann_json REQUIRED)
+find_package(doctest REQUIRED)
+
+target_link_libraries(${PROJECT_NAME} PRIVATE spdlog::spdlog)
+target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)
+target_link_libraries(${PROJECT_NAME} PRIVATE doctest::doctest)
+
+
