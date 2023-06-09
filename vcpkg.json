@@ -1,15 +1,15 @@
 {
-  "name" : "great-buct-compiler",
-  "version-string" : "1.0.0",
-  "builtin-baseline" : "1e334d770ac71a89d1c36d51019e60dd08b68f76",
-  "dependencies" : [ {
-    "name" : "nlohmann-json",
-    "version>=" : "3.11.2"
-  }, {
-    "name" : "doctest",
-    "version>=" : "2.4.11"
-  }, {
-    "name" : "spdlog",
-    "version>=" : "1.11.0#1"
-  } ]
+  "name": "great-buct-compiler",
+  "version-string": "1.0.0",
+  "builtin-baseline": "1e334d770ac71a89d1c36d51019e60dd08b68f76",
+  "dependencies": [
+    {
+      "name": "nlohmann-json",
+      "version>=": "3.11.2"
+    },
+    {
+      "name": "spdlog",
+      "version>=": "1.11.0#1"
+    }
+  ]
 }

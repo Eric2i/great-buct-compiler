@@ -11,10 +11,12 @@
 #include <iostream>
 #include <fstream>
 #include "nlohmann/json.hpp"
+#include "../lex/token.h"
 
 namespace gbc::grammar {
 
 using TokenId = long long;
+using Tokens = std::vector<lex::Token>;
 using TokenStringSet = std::set<std::string>;
 using TokenSet = std::set<TokenId>;
 using TokenMap = std::map<std::string, TokenId>;
@@ -50,7 +52,7 @@ class GrammarParser {
   std::string syntax_rules_path = "../test/syntax_demo.json";
 
  public:
-  [[maybe_unused]] explicit GrammarParser(std::string s) {
+  explicit GrammarParser(std::string s) {
     syntax_rules_path = std::move(s);
     std::ifstream f(syntax_rules_path);
     nlohmann::json data = nlohmann::json::parse(f);
@@ -80,6 +82,8 @@ class GrammarParser {
 
     token_map_.insert({std::string(), EPSILON});
     token_map_re_.insert({EPSILON, std::string()});
+    token_map_.insert({"$", EOT});
+    token_map_re_.insert({EOT, "$"});
 
     for (const auto &[nt, symbols] : temp_productions) {
       for (const auto &symbol : symbols) {
@@ -105,10 +109,10 @@ class GrammarParser {
     PRODUCTIONS = 4
   };
   void Print(PrintOption option);
-// public:
-//  virtual void Preprocess();
-//  virtual void BuildAnalysisTable();
-//  virtual void Analyze();
+ public:
+  virtual void Preprocess() = 0;
+  virtual void BuildAnalysisTable() = 0;
+  virtual void Analyze(Tokens tokens) = 0;
 };
 
 } // gbc

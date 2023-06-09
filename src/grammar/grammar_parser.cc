@@ -38,7 +38,7 @@ void GrammarParser::Print(GrammarParser::PrintOption option) {
     case TOKEN_MAP:
       spdlog::info("[Token map]");
       for (const auto &[k, v] : token_map_) {
-        spdlog::info("token id: {}, token: {}, ", v, k);
+        spdlog::info("token id: {}, token: {}", v, k);
       }
       break;
     case PRODUCTIONS:
