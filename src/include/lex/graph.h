@@ -14,8 +14,6 @@
 namespace gbc {
 namespace lex {
 
-enum Result { OK, FAILED }; // return status
-
 
 typedef long long state_id;
 typedef long long edge_id;
@@ -41,7 +39,7 @@ class GenericState {
  public:
   state_id id(); // get state id
   edge_t outEdges(); // get out edges
-  Result addEdges(); // add new out edge
+  bool addEdges(); // add new out edge
 };
 
 } // lex
