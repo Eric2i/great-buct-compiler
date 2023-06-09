@@ -7,6 +7,7 @@
 
 #include "token.h"
 #include <map>
+#include <vector>
 
 namespace gbc::lex {
     typedef long long regex_id;

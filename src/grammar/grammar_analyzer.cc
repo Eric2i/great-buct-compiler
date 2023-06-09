@@ -4,8 +4,6 @@
 
 #include "../include/grammar/grammar_analyzer.h"
 
-namespace gbc {
-namespace grammar {
+namespace gbc::grammar {
 
-} // grammar
 } // gbc

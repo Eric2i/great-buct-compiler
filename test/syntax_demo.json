@@ -1,0 +1,125 @@
+{
+  "rules": [
+    {
+      "name": "exp",
+      "productions": [
+        {
+          "symbols": [
+            {
+              "type": "non-terminal",
+              "value": "exp"
+            },
+            {
+              "type": "non-terminal",
+              "value": "addop"
+            },
+            {
+              "type": "non-terminal",
+              "value": "term"
+            }
+          ]
+        },
+        {
+          "symbols": [
+            {
+              "type": "non-terminal",
+              "value": "term"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "addop",
+      "productions": [
+        {
+          "symbols": [
+            {
+              "type": "terminal",
+              "value": "+"
+            }
+          ]
+        },
+        {
+          "symbols": [
+            {
+              "type": "terminal",
+              "value": "-"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "term",
+      "productions": [
+        {
+          "symbols": [
+            {
+              "type": "non-terminal",
+              "value": "term"
+            },
+            {
+              "type": "non-terminal",
+              "value": "mulop"
+            },
+            {
+              "type": "non-terminal",
+              "value": "factor"
+            }
+          ]
+        },
+        {
+          "symbols": [
+            {
+              "type": "non-terminal",
+              "value": "factor"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "mulop",
+      "productions": [
+        {
+          "symbols": [
+            {
+              "type": "terminal",
+              "value": "*"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "factor",
+      "productions": [
+        {
+          "symbols": [
+            {
+              "type": "terminal",
+              "value": "("
+            },
+            {
+              "type": "non-terminal",
+              "value": "exp"
+            },
+            {
+              "type": "terminal",
+              "value": ")"
+            }
+          ]
+        },
+        {
+          "symbols": [
+            {
+              "type": "terminal",
+              "value": "number"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
