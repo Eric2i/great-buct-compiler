@@ -5,6 +5,7 @@
 #ifndef GREAT_BUCT_COMPILER_SRC_GRAMMAR_LL_1_PARSER_H_
 #define GREAT_BUCT_COMPILER_SRC_GRAMMAR_LL_1_PARSER_H_
 #include "grammar_parser.h"
+#include "unordered_map"
 
 namespace gbc::grammar {
 
