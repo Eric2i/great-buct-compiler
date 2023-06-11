@@ -10,12 +10,11 @@
 #include <vector>
 
 namespace gbc::lex {
-    typedef long long regex_id;
-    typedef std::string path;
+    using path = std::string;
 
     class Regex {
     private:
-        std::vector<Token> tokens;
+        std::vector<Token> _tokens;
         std::map<token_name, token_pattern> name2pattern;
 
     public:
@@ -23,6 +22,7 @@ namespace gbc::lex {
         token_pattern expand(token_pattern);
         bool definition_to_expression();
         bool infix_to_postfix();
+        std::vector<Token> tokens();
         void debug();
     };
 

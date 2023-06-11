@@ -15,9 +15,9 @@ namespace gbc {
             std::ifstream fin(p);
             while(std::getline(fin, name, ' ')) {
                 std::getline(fin, pattern);
-                this->tokens.push_back(Token(seq++,
-                                             name.substr(0, name.size()-1),
-                                             pattern));
+                this->_tokens.push_back(Token(seq++,
+                                              name.substr(0, name.size()-1),
+                                              pattern));
                 name2pattern[name.substr(0, name.size()-1)] = pattern;
             }
             return true;
@@ -37,7 +37,7 @@ namespace gbc {
         }
 
         bool Regex::definition_to_expression() {
-            for(Token &t: this->tokens) {
+            for(Token &t: this->_tokens) {
                 t.update_pattern(expand(t.pattern()));
                 // this->name2pattern must be synchronized with all tokens
                 this->name2pattern[t.name()] = t.pattern();
@@ -46,10 +46,14 @@ namespace gbc {
 
         bool Regex::infix_to_postfix() {
             // transform infix regex to postfix regex
-            for(Token &t: this->tokens) {
+            for(Token &t: this->_tokens) {
                 t.infix_to_postfix();
             }
             return true;
+        }
+
+        std::vector<Token> Regex::tokens() {
+            return this->_tokens;
         }
 
         void Regex::debug() {
@@ -58,7 +62,7 @@ namespace gbc {
                       << "id\t"
                       << "name\t"
                       << "pattern\n";
-            for(Token t: this->tokens) {
+            for(Token t: this->_tokens) {
                 std::cerr << "\t"
                           << t.id() << ".\t"
                           << t.name() << "\t"
@@ -69,10 +73,12 @@ namespace gbc {
         void regex_class_tester() {
             Regex regex;
             regex.read_from_file("tokens.txt");
-            regex.debug();
             regex.definition_to_expression();
             regex.infix_to_postfix();
-            regex.debug();
+            for(Token &t: regex.tokens()) {
+                std::cerr << t.name() << ": " << t.pattern() << std::endl;
+            }
+//            regex.debug();
         }
 
     } // lex namespace
