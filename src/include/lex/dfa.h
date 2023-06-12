@@ -6,26 +6,20 @@
 #define GREAT_BUCT_COMPILER_DFA_H
 
 #include "fa.h"
-#include <map>
-#include <set>
-#include <vector>
+#include "token.h"
 
-typedef int state_type;
-typedef int NFAState;
-typedef char label_type;
-
-namespace gbc {
-namespace lex {
+namespace gbc::lex {
 
 class DFA : public FA {
 
-public:
+private:
+    std::vector<std::vector<Token>> _tokens;
 
-    void NFA2DFA();
-    void simplify();
+public:
+    std::vector<std::vector<Token>> get_tokens();
+
 };
 
-} // lex
 } // gbc
 
 #endif //GREAT_BUCT_COMPILER_DFA_H
