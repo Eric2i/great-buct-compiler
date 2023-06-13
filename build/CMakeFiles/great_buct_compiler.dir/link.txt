@@ -1,3 +1,0 @@
-D:\Cmake\bin\cmake.exe -E rm -f CMakeFiles\great_buct_compiler.dir/objects.a
-D:\mingw64\bin\ar.exe qc CMakeFiles\great_buct_compiler.dir/objects.a @CMakeFiles\great_buct_compiler.dir\objects1.rsp
-D:\mingw64\bin\g++.exe -g -Wl,--whole-archive CMakeFiles\great_buct_compiler.dir/objects.a -Wl,--no-whole-archive -o great_buct_compiler.exe -Wl,--out-implib,libgreat_buct_compiler.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\great_buct_compiler.dir\linkLibs.rsp

@@ -1,4 +1,0 @@
-C:/Users/DBZQ/Desktop/great-buct-compiler/build/CMakeFiles/GBC_SRC.dir
-C:/Users/DBZQ/Desktop/great-buct-compiler/build/CMakeFiles/great_buct_compiler.dir
-C:/Users/DBZQ/Desktop/great-buct-compiler/build/CMakeFiles/edit_cache.dir
-C:/Users/DBZQ/Desktop/great-buct-compiler/build/CMakeFiles/rebuild_cache.dir

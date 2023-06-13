@@ -1,2 +1,0 @@
-D:\mingw64\bin\ar.exe qc libGBC_SRC.a CMakeFiles/GBC_SRC.dir/src/grammar/grammar_analyzer.cc.obj CMakeFiles/GBC_SRC.dir/src/grammar/grammar_parser.cc.obj CMakeFiles/GBC_SRC.dir/src/grammar/ll_1_parser.cc.obj
-D:\mingw64\bin\ranlib.exe libGBC_SRC.a
