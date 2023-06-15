@@ -7,15 +7,21 @@
 
 #include "dfa.h"
 #include "regex.h"
-namespace gbc {
-namespace lex {
+namespace gbc::lex {
 
-class LexicalAnalyzer {
+    using path = std::string;
+    using lexeme = std::string;
 
-};
+    class LexicalAnalyzer {
+    private:
+        DFA dfa;
+        path src;
+        std::vector<std::vector<Token>> tokens;
+    private:
+         bool parse();
+    };
 
-} // lex
-} // gbc
+} // gbc::lex namespace
 
 
 #endif //GREAT_BUCT_COMPILER_LEXICALANALYZER_H
