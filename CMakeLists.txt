@@ -18,10 +18,10 @@ set(GBC_SRC
 
 add_executable(${PROJECT_NAME} ${GBC_SRC})
 
-find_package(spdlog CONFIG REQUIRED)
-find_package(nlohmann_json CONFIG REQUIRED)
+# find_package(spdlog CONFIG REQUIRED)
+# find_package(nlohmann_json CONFIG REQUIRED)
 #find_package(doctest CONFIG REQUIRED)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE spdlog::spdlog)
-target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)
+# target_link_libraries(${PROJECT_NAME} PRIVATE spdlog::spdlog)
+# target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)
 #target_link_libraries(${PROJECT_NAME} PRIVATE doctest::doctest)

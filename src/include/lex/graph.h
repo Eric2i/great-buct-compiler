@@ -2,47 +2,70 @@
 // Created by Eric2i Hsiung on 2023/6/4.
 //
 
-/*
- * 我们希望将有关图的一般性数据结构和功能函数抽象为两个类,
- * 此后有关某类具体图数据结构的构建将通过引用本文件实现其高层功能
- */
-
 #ifndef GREAT_BUCT_COMPILER_GRAPH_H
 #define GREAT_BUCT_COMPILER_GRAPH_H
 
 #include <vector>
 namespace gbc {
-namespace lex {
+    namespace lex {
 
+        typedef long long state_id;
+        typedef long long edge_id;
+        typedef char label_t;
 
-typedef long long state_id;
-typedef long long edge_id;
-typedef char label_t;
+        static long long edge_next_id = 0;
+        static long long state_next_id = 0;
 
-template<class state_t>
-class GenericEdge {
- private:
-  edge_id _id;
-  label_t _label;
-  state_t _destination;
- public:
-  edge_id id(); // get edge id
-  state_t dest(); // get the destination of this edge
-  label_t label(); // get the label of this edge
-};
+        template<class state_t>
+        class GenericEdge {
+        private:
+            edge_id _id;
+            label_t _label;
+            state_t _destination;
+        public:
+            GenericEdge(label_t label, state_t destination)
+                : _label(label), _destination(destination) {
+                _id = edge_next_id++;
+            }
 
-template<class edge_t>
-class GenericState {
- private:
-  state_id _id;
-  std::vector<edge_t> _edges;
- public:
-  state_id id(); // get state id
-  edge_t outEdges(); // get out edges
-  bool addEdges(); // add new out edge
-};
+            edge_id id() { // get edge id
+                return this->_id;
+            }
 
-} // lex
+            state_t dest() { // get the destination of this edge
+                return this->_destination;
+            }
+
+            label_t label() { // get the label of this edge
+                return this->_label;
+            }
+        };
+
+        template<class edge_t>
+        class GenericState {
+        private:
+            state_id _id;
+            std::vector<edge_t> _edges;
+        public:
+            GenericState() {
+                _id = state_next_id++;
+            }
+
+            state_id id() { // get state id
+                return this->_id;
+            }
+
+            std::vector<edge_t> outEdges() { // get out edges
+                return this->_edges;
+            }
+
+            bool addEdges(edge_t edge) { // add new edge
+                this->_edges.push_back(edge);
+                return true;
+            }
+        };
+
+    } // lex
 } // gbc
 
 
