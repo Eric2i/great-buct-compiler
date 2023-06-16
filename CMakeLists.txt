@@ -12,7 +12,7 @@ set(GBC_SRC
         src/include/lex/graph.h
         src/include/lex/lexical_analyzer.h
         src/include/lex/nfa.h
-        src/lex/regex.cc src/include/lex/regex.h
+        src/lex/rules.cc src/include/lex/rules.h
         src/grammar/grammar_analyzer.cc src/include/grammar/grammar_analyzer.h src/grammar/grammar_parser.cc src/include/grammar/grammar_parser.h src/grammar/ll_1_parser.cc src/include/grammar/ll_1_parser.h
         src/lex/alphabet.cpp src/include/lex/alphabet.h)
 

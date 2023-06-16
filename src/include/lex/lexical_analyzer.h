@@ -6,7 +6,7 @@
 #define GREAT_BUCT_COMPILER_LEXICALANALYZER_H
 
 #include "dfa.h"
-#include "regex.h"
+#include "rules.h"
 namespace gbc::lex {
 
     using path = std::string;

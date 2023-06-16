@@ -171,4 +171,3 @@ namespace gbc::lex {
         return true;
     }
 } // gbc::lex namespace
-
