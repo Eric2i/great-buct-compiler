@@ -18,7 +18,6 @@ namespace gbc::lex {
         token_id _id;
         token_name _name;
         token_pattern _pattern;
-        Alphabet alphabet;
     public:
         Token(token_id, token_name, token_pattern);
         [[nodiscard]] token_id id() const;

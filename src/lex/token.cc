@@ -93,7 +93,6 @@ namespace gbc::lex {
                     operator_stk.push(Concatenation);
                 }
                 char nextChar = this->_pattern[i+1];
-                this->alphabet.append(nextChar);
 //                postfix += character; // keep the backslash
                 postfix += nextChar;
                 lastToken = character;
@@ -108,7 +107,6 @@ namespace gbc::lex {
                     }
                     operator_stk.push(Concatenation);
                 }
-                this->alphabet.append(character);
                 postfix += character;
                 lastToken = character;
             }
