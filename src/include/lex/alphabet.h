@@ -14,7 +14,7 @@ namespace gbc::lex {
     private:
         std::set<char> _alphabet;
     public:
-        Alphabet();
+        void initiate();
         bool isInAlphabet(char &c); // check if c is in alphabet
         bool append(char &c); // add new character to alphabet
     };

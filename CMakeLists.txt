@@ -9,7 +9,6 @@ set(GBC_SRC
         src/include/lex/error_message.h
         src/include/lex/dfa.h
         src/include/lex/fa.h
-        src/include/lex/graph.h
         src/include/lex/lexical_analyzer.h
         src/include/lex/nfa.h
         src/lex/rules.cc src/include/lex/rules.h

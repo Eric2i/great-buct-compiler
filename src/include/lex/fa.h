@@ -5,16 +5,19 @@
 #ifndef GREAT_BUCT_COMPILER_FA_H
 #define GREAT_BUCT_COMPILER_FA_H
 
-#include "graph.h"
-namespace gbc {
-namespace lex {
+#include "alphabet.h"
 
-class FA {
+namespace gbc::lex {
+    using state_id = long long;
+    using edge_id = long long;
+    using label_t = char;
 
-};
+    class FA {
+    private:
+        Alphabet alphabet;
 
-} // lex
-} // gbc
+    };
+} // gbc::lex namespace
 
 
 #endif //GREAT_BUCT_COMPILER_FA_H
