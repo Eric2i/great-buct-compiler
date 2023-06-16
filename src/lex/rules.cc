@@ -6,6 +6,10 @@
 #include <iostream>
 
 namespace gbc::lex {
+    LexicalRules::LexicalRules() {
+        this->alphabet.initiate();
+    }
+
     bool LexicalRules::read_from_file(path p) {
         token_name name;
         token_pattern pattern;
@@ -17,6 +21,7 @@ namespace gbc::lex {
             this->_tokens.emplace_back(seq++, name.substr(0, name.size()-1), pattern);
             name2pattern[name.substr(0, name.size()-1)] = pattern;
         }
+
         return true;
     }
 

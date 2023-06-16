@@ -19,6 +19,8 @@ namespace gbc::lex {
         Alphabet alphabet;
 
     public:
+        // initiate alphabet
+        LexicalRules();
         bool read_from_file(path);
         bool definition_to_expression();
         bool infix_to_postfix();

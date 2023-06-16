@@ -9,7 +9,7 @@
 #include "alphabet.h"
 
 namespace gbc::lex {
-    typedef long long token_id;
+    using token_id = long long;
     typedef std::string token_name;
     typedef std::string token_pattern;
 

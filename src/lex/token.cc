@@ -5,7 +5,6 @@
 #include <iostream>
 #include <stack>
 #include "../include/lex/token.h"
-#include "../include/lex/graph.h"
 
 namespace gbc::lex {
     Token::Token(token_id id, token_name name, token_pattern pattern) {
@@ -76,7 +75,7 @@ namespace gbc::lex {
     bool Token::infix_to_postfix() {
         token_pattern postfix;
 
-        std::stack<label_t> operator_stk;
+        std::stack<char> operator_stk;
         char lastToken = '\0';
 
         for (int i = 0; i < this->_pattern.size(); i++)
