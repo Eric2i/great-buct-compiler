@@ -6,8 +6,8 @@
 
 namespace gbc::lex {
 
-    Alphabet::Alphabet() {
-        std::string initial_alphabet_table = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+-*/%<>~&|^!=()[]{}_',.\"";
+    void Alphabet::initiate() {
+        std::string initial_alphabet_table = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+-*/%<>~&|^!=()[]{}_',.\" ;";
         for(auto &c : initial_alphabet_table) {
             this->_alphabet.insert(c);
         }

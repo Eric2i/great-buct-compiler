@@ -9,7 +9,7 @@
 #include "alphabet.h"
 
 namespace gbc::lex {
-    typedef long long token_id;
+    using token_id = long long;
     typedef std::string token_name;
     typedef std::string token_pattern;
 
@@ -18,18 +18,20 @@ namespace gbc::lex {
         token_id _id;
         token_name _name;
         token_pattern _pattern;
-        Alphabet alphabet;
     public:
+        Token();
         Token(token_id, token_name, token_pattern);
+
         [[nodiscard]] token_id id() const;
         token_name name();
         token_pattern pattern();
+
         bool update_pattern(token_pattern);
         bool infix_to_postfix();
         bool operator<(const Token &X) const;
     };
 
-    void token_class_tester();
+    bool isRegexCharacter(char c);
 } // gbc
 
 
