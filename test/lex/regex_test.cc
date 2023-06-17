@@ -7,7 +7,7 @@
 
 bool LexicalRulesTester() {
     gbc::lex::LexicalRules regex;
-    regex.read_from_file("tokens.txt");
+    regex.read_from_file("../test/lex/tokens.txt");
     regex.definition_to_expression();
     regex.infix_to_postfix();
     for(gbc::lex::Token &t: regex.tokens()) {
