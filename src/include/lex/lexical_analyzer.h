@@ -15,10 +15,9 @@ namespace gbc::lex {
     class LexicalAnalyzer {
     private:
         DFA dfa;
-        path src;
-        std::vector<std::vector<Token>> tokens;
-    private:
-         bool parse();
+    public:
+        LexicalAnalyzer(DFA &);
+        std::vector<std::vector<Token>> parse(path &);
     };
 
 } // gbc::lex namespace
