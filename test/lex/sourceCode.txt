@@ -1,0 +1,6 @@
+int main () {
+    float PI = 3.14;
+    float radius = 2;
+    double area = PI * radius * radius;
+    return 0;
+}
