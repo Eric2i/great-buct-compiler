@@ -16,9 +16,9 @@ namespace gbc::lex {
     private:
         std::vector<Token> _tokens;
         std::map<token_name, token_pattern> name2pattern;
-        Alphabet alphabet;
 
     public:
+        Alphabet alphabet;
         // initiate alphabet
         LexicalRules();
         bool read_from_file(path);
@@ -28,7 +28,6 @@ namespace gbc::lex {
         void debug();
     };
 
-    void regex_class_tester();
 } // gbc namespace
 
 
