@@ -7,6 +7,8 @@
 #include "../include/lex/token.h"
 
 namespace gbc::lex {
+    Token::Token() {;}
+
     Token::Token(token_id id, token_name name, token_pattern pattern) {
         this->_id = id;
         this->_name = std::move(name);
@@ -30,31 +32,44 @@ namespace gbc::lex {
     }
 
     bool isRegexCharacter(char c) {
-        if(isalnum(c)) return false;
         switch(c) {
-            case '_':
-                return false;
-            case '<':
-                return false;
-            case '=':
-                return false;
-            case '!':
-                return false;
-            case '>':
-                return false;
-            case '-':
-                return false;
-            case ' ':
-                return false;
-            case ';':
-                return false;
+            case '#':
+                return true;
+            case '|':
+                return true;
+            case '*':
+                return true;
+            case '+':
+                return true;
+            case '?':
+                return true;
+            case '(':
+                return true;
+            case ')':
+                return true;
         }
-        return true;
+        return false;
     }
 
     bool allowConcatFollow(char c) {
-        if(!isRegexCharacter(c)) return true;
+        if(isalnum(c)) return true;
         switch(c) {
+            case '_':
+                return true;
+            case '<':
+                return true;
+            case '=':
+                return true;
+            case '!':
+                return true;
+            case '>':
+                return true;
+            case '-':
+                return true;
+            case ' ':
+                return true;
+            case ';':
+                return true;
             case '*':
                 return true;
             case ')':
@@ -63,8 +78,9 @@ namespace gbc::lex {
                 return true;
             case '\\':
                 return true;
+            default:
+                return false;
         }
-        return false;
     }
 
     bool PartialOrd(const char a, const char b) {
@@ -78,29 +94,27 @@ namespace gbc::lex {
         std::stack<char> operator_stk;
         char lastToken = '\0';
 
-        for (int i = 0; i < this->_pattern.size(); i++)
-        {
+        for (int i = 0; i < this->_pattern.size(); i++) {
             char character = this->_pattern[i];
             // we treat the character after the backslash as a normal single character
-            if(character == '\\') {
-                if(allowConcatFollow(lastToken)) {
+            if (character == '\\') {
+                if (allowConcatFollow(lastToken)) {
                     char Concatenation = '#';
-                    while(!operator_stk.empty() && PartialOrd(operator_stk.top(), Concatenation)) {
+                    while (!operator_stk.empty() && PartialOrd(operator_stk.top(), Concatenation)) {
                         postfix += operator_stk.top();
                         operator_stk.pop();
                     }
                     operator_stk.push(Concatenation);
                 }
-                char nextChar = this->_pattern[i+1];
-//                postfix += character; // keep the backslash
+                char nextChar = this->_pattern[i + 1];
+                postfix += character; // keep the backslash
                 postfix += nextChar;
                 lastToken = character;
                 i += 1; // skip the next character
-            }
-            else if(!isRegexCharacter(character)) {
-                if(allowConcatFollow(lastToken)) {
+            } else if (!isRegexCharacter(character)) {
+                if (allowConcatFollow(lastToken)) {
                     char Concatenation = '#';
-                    while(!operator_stk.empty() && PartialOrd(operator_stk.top(), Concatenation)) {
+                    while (!operator_stk.empty() && PartialOrd(operator_stk.top(), Concatenation)) {
                         postfix += operator_stk.top();
                         operator_stk.pop();
                     }
@@ -108,12 +122,10 @@ namespace gbc::lex {
                 }
                 postfix += character;
                 lastToken = character;
-            }
-            else if (character == '(')
-            {
-                if(allowConcatFollow(lastToken)) {
+            } else if (character == '(') {
+                if (allowConcatFollow(lastToken)) {
                     char Concatenation = '#';
-                    while(!operator_stk.empty() && PartialOrd(operator_stk.top(), Concatenation)) {
+                    while (!operator_stk.empty() && PartialOrd(operator_stk.top(), Concatenation)) {
                         postfix += operator_stk.top();
                         operator_stk.pop();
                     }
@@ -121,18 +133,15 @@ namespace gbc::lex {
                 }
                 operator_stk.push('(');
                 lastToken = character;
-            }
-            else if (character == ')')
-            {
-                while(!operator_stk.empty() && operator_stk.top() != '(')
-                {
-                    postfix += operator_stk.top();operator_stk.pop();
+            } else if (character == ')') {
+                while (!operator_stk.empty() && operator_stk.top() != '(') {
+                    postfix += operator_stk.top();
+                    operator_stk.pop();
                 }
                 operator_stk.pop();
                 lastToken = ')';
-            }
-            else { // regular expression operators
-                while(!operator_stk.empty() && PartialOrd(operator_stk.top(), character)) {
+            } else { // regular expression operators
+                while (!operator_stk.empty() && PartialOrd(operator_stk.top(), character)) {
                     postfix += operator_stk.top();
                     operator_stk.pop();
                 }

@@ -19,16 +19,19 @@ namespace gbc::lex {
         token_name _name;
         token_pattern _pattern;
     public:
+        Token();
         Token(token_id, token_name, token_pattern);
+
         [[nodiscard]] token_id id() const;
         token_name name();
         token_pattern pattern();
+
         bool update_pattern(token_pattern);
         bool infix_to_postfix();
         bool operator<(const Token &X) const;
     };
 
-    void token_class_tester();
+    bool isRegexCharacter(char c);
 } // gbc
 
 

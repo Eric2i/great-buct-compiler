@@ -7,7 +7,7 @@
 namespace gbc::lex {
 
     void Alphabet::initiate() {
-        std::string initial_alphabet_table = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+-*/%<>~&|^!=()[]{}_',.\"";
+        std::string initial_alphabet_table = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+-*/%<>~&|^!=()[]{}_',.\" ;";
         for(auto &c : initial_alphabet_table) {
             this->_alphabet.insert(c);
         }
