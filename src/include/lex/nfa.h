@@ -8,14 +8,20 @@
 #include <map>
 #include <vector>
 #include "FA.h"
+#include "rules.h"
 
 namespace gbc::lex {
+    using NFAState = int;
 
     struct NFA {
-        int start;  // initial state
-        int accept; // final state
-        std::map<int, State> states;
+        Alphabet alphabet;
+        NFAState start{};  // initial state
+        NFAState accept{}; // final state
+        std::map<NFAState, Token> tokens;
+        std::map<NFAState, State> states;
+        NFA() = default;
     };
+
 
     NFA char2NFA(char c);
 
@@ -29,7 +35,9 @@ namespace gbc::lex {
 
     void reset_state_counter();
 
-/*DEBUG*/
+    NFA build_from_rules(LexicalRules &rules);
+
+    /*DEBUG*/
     void show_NFA(NFA &);
 
     int report_counter();

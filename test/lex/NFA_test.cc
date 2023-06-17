@@ -54,4 +54,18 @@ namespace gbc::lex {
         // 10-!->2
         return true;
     }
+
+    bool rules_to_nfa_tester() {
+        LexicalRules regex;
+        regex.read_from_file("../test/lex/tokens.txt");
+        regex.definition_to_expression();
+        regex.infix_to_postfix();
+        for(gbc::lex::Token &t: regex.tokens()) {
+            std::cerr << t.name() << ": " << t.pattern() << std::endl;
+        }
+        auto nfa = build_from_rules(regex);
+        show_NFA(nfa);
+
+        return true;
+    }
 }
