@@ -3,10 +3,12 @@
 //
 
 #include "test/lex/regex_test.cc"
+#include "test/lex/NFA_test.cc"
+
 #include <fstream>
 #include <iostream>
 
 int main() {
-    LexicalRulesTester();
+    gbc::lex::nfa_tester();
     return 0;
 }
