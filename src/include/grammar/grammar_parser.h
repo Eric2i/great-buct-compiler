@@ -69,11 +69,13 @@ class GrammarParser {
         for (const auto &symbol : production["symbols"]) {
           right.push_back(symbol["value"]);
           if (symbol["type"] == "terminal") {
-            TokenId terminal_id = tokens_.size();
-            token_map_.insert({symbol["value"], terminal_id});
-            token_map_re_.insert({terminal_id, symbol["value"]});
-            terminals_.insert(terminal_id);
-            tokens_.insert(symbol["value"]);
+            if (auto res = tokens_.find(symbol["value"]); res == tokens_.end()) {
+              TokenId terminal_id = tokens_.size();
+              token_map_.insert({symbol["value"], terminal_id});
+              token_map_re_.insert({terminal_id, symbol["value"]});
+              terminals_.insert(terminal_id);
+              tokens_.insert(symbol["value"]);
+            }
           }
         }
         temp_productions[rule["name"]].push_back(right);
@@ -89,7 +91,12 @@ class GrammarParser {
       for (const auto &symbol : symbols) {
         std::vector<TokenId> right;
         for (const auto &item : symbol) {
-          right.push_back(token_map_[item]);
+          if (item == "epsilon") {
+            right.push_back(EPSILON);
+          } else {
+            right.push_back(token_map_[item]);
+          }
+
         }
         productions[token_map_[nt]].push_back(right);
       }

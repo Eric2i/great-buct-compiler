@@ -1,0 +1,425 @@
+{
+  "rules": [
+    {
+      "name": "program",
+      "productions": [
+        {
+          "symbols": [
+            {
+              "type": "terminal",
+              "value": "epsilon"
+            }
+          ]
+        },
+        {
+          "symbols": [
+            {
+              "type": "non-terminal",
+              "value": "func_def"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "func_def",
+      "productions": [
+        {
+          "symbols": [
+            {
+              "type": "terminal",
+              "value": "TYPE"
+            },
+            {
+              "type": "terminal",
+              "value": "IDENTIFIER"
+            },
+            {
+              "type": "terminal",
+              "value": "LEFT_BRACKET"
+            },
+            {
+              "type": "non-terminal",
+              "value": "param_list"
+            },
+            {
+              "type": "terminal",
+              "value": "RIGHT_BRACKET"
+            },
+            {
+              "type": "terminal",
+              "value": "LEFT_CURLYBRACE"
+            },
+            {
+              "type": "non-terminal",
+              "value": "func_body"
+            },
+            {
+              "type": "terminal",
+              "value": "RIGHT_CURLYBRACE"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "param_list",
+      "productions": [
+        {
+          "symbols": [
+            {
+              "type": "non-terminal",
+              "value": "type_var"
+            },
+            {
+              "type": "terminal",
+              "value": "COMMA"
+            },
+            {
+              "type": "non-terminal",
+              "value": "param_list"
+            }
+          ]
+        },
+        {
+          "symbols": [
+            {
+              "type": "non-terminal",
+              "value": "type_var"
+            }
+          ]
+        },
+        {
+          "symbols": [
+            {
+              "type": "terminal",
+              "value": "epsilon"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "type_var",
+      "productions": [
+        {
+          "symbols": [
+            {
+              "type": "terminal",
+              "value": "TYPE"
+            },
+            {
+              "type": "terminal",
+              "value": "IDENTIFIER"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "func_body",
+      "productions": [
+        {
+          "symbols": [
+            {
+              "type": "non-terminal",
+              "value": "stmt"
+            }
+          ]
+        },
+        {
+          "symbols": [
+            {
+              "type": "non-terminal",
+              "value": "func_body"
+            },
+            {
+              "type": "non-terminal",
+              "value": "stmt"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "stmt",
+      "productions": [
+        {
+          "symbols": [
+            {
+              "type": "non-terminal",
+              "value": "expr"
+            },
+            {
+              "type": "terminal",
+              "value": "SEMICOLON"
+            }
+          ]
+        },
+        {
+          "symbols": [
+            {
+              "type": "terminal",
+              "value": "TYPE"
+            },
+            {
+              "type": "terminal",
+              "value": "IDENTIFIER"
+            },
+            {
+              "type": "terminal",
+              "value": "ASSIGN"
+            },
+            {
+              "type": "non-terminal",
+              "value": "expr"
+            },
+            {
+              "type": "terminal",
+              "value": "SEMICOLON"
+            }
+          ]
+        },
+        {
+          "symbols": [
+            {
+              "type": "terminal",
+              "value": "RETURN"
+            },
+            {
+              "type": "terminal",
+              "value": "SEMICOLON"
+            }
+          ]
+        },
+        {
+          "symbols": [
+            {
+              "type": "terminal",
+              "value": "RETURN"
+            },
+            {
+              "type": "non-terminal",
+              "value": "expr"
+            },
+            {
+              "type": "terminal",
+              "value": "SEMICOLON"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "expr",
+      "productions": [
+        {
+          "symbols": [
+            {
+              "type": "non-terminal",
+              "value": "cexpr"
+            }
+          ]
+        },
+        {
+          "symbols": [
+            {
+              "type": "terminal",
+              "value": "NOT"
+            },
+            {
+              "type": "non-terminal",
+              "value": "expr"
+            }
+          ]
+        },
+        {
+          "symbols": [
+            {
+              "type": "non-terminal",
+              "value": "expr"
+            },
+            {
+              "type": "terminal",
+              "value": "AND"
+            },
+            {
+              "type": "non-terminal",
+              "value": "expr"
+            }
+          ]
+        },
+        {
+          "symbols": [
+            {
+              "type": "non-terminal",
+              "value": "expr"
+            },
+            {
+              "type": "terminal",
+              "value": "OR"
+            },
+            {
+              "type": "non-terminal",
+              "value": "expr"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "cexpr",
+      "productions": [
+        {
+          "symbols": [
+            {
+              "type": "terminal",
+              "value": "IDENTIFIER"
+            }
+          ]
+        },
+        {
+          "symbols": [
+            {
+              "type": "terminal",
+              "value": "LEFT_BRACKET"
+            },
+            {
+              "type": "non-terminal",
+              "value": "expr"
+            },
+            {
+              "type": "terminal",
+              "value": "RIGHT_BRACKET"
+            }
+          ]
+        },
+        {
+          "symbols": [
+            {
+              "type": "non-terminal",
+              "value": "cexpr"
+            },
+            {
+              "type": "non-terminal",
+              "value": "bin_op"
+            },
+            {
+              "type": "non-terminal",
+              "value": "cexpr"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "bin_op",
+      "productions": [
+        {
+          "symbols": [
+            {
+              "type": "terminal",
+              "value": "PLUS"
+            }
+          ]
+        },
+        {
+          "symbols": [
+            {
+              "type": "terminal",
+              "value": "MINUS"
+            }
+          ]
+        },
+        {
+          "symbols": [
+            {
+              "type": "terminal",
+              "value": "MULTIPLY"
+            }
+          ]
+        },
+        {
+          "symbols": [
+            {
+              "type": "terminal",
+              "value": "POWER"
+            }
+          ]
+        },
+        {
+          "symbols": [
+            {
+              "type": "terminal",
+              "value": "LEFT_SHIFT"
+            }
+          ]
+        },
+        {
+          "symbols": [
+            {
+              "type": "terminal",
+              "value": "RIGHT_SHIFT"
+            }
+          ]
+        },
+        {
+          "symbols": [
+            {
+              "type": "terminal",
+              "value": "BIT_NOT"
+            }
+          ]
+        },
+        {
+          "symbols": [
+            {
+              "type": "terminal",
+              "value": "BIT_AND"
+            }
+          ]
+        },
+        {
+          "symbols": [
+            {
+              "type": "terminal",
+              "value": "BIT_OR"
+            }
+          ]
+        },
+        {
+          "symbols": [
+            {
+              "type": "terminal",
+              "value": "GT"
+            }
+          ]
+        },
+        {
+          "symbols": [
+            {
+              "type": "terminal",
+              "value": "GEQ"
+            }
+          ]
+        },
+        {
+          "symbols": [
+            {
+              "type": "terminal",
+              "value": "LT"
+            }
+          ]
+        },
+        {
+          "symbols": [
+            {
+              "type": "terminal",
+              "value": "LEQ"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

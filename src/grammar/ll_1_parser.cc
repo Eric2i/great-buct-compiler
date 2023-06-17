@@ -182,7 +182,33 @@ void LL1Parser::BuildAnalysisTable() {
 // TODO Whether tokens should from syntax rules or regex?
 void LL1Parser::Analyze(Tokens tokens) {
   spdlog::info("[Analyze tokens]");
+  std::vector<size_t> tks{3, 4, 5, 6, 7, 3, 4, 15, 4, 14, 16, 4, 14, 8};
+  std::deque<size_t> analysis_stack;
+  analysis_stack.push_back(EOT);
+  analysis_stack.push_front(0);
+  int p = 0;
+  while (!analysis_stack.empty()) {
+    if (analysis_stack.front() == EPSILON) {
+      analysis_stack.pop_front();
+    }
+    if (analysis_stack.front() != tks[p]) {
+      auto production = select_[analysis_stack.front()][tks[p]];
+      auto right = production.second;
+      analysis_stack.pop_front();
+      std::reverse(right.begin(), right.end());
+      for (const auto &item : right) {
+        analysis_stack.push_front(item);
+      }
+    } else if (analysis_stack.front() == tks[p]) {
+      analysis_stack.pop_front();
+      p++;
+    }
+  }
+  if (p == tokens.size()) {
+    std::cout << "success" << std::endl;
+  }
 }
+
 void LL1Parser::LL1Print(LL1PrintOption option) {
 
   switch (option) {
@@ -213,6 +239,47 @@ void LL1Parser::LL1Print(LL1PrintOption option) {
         }
       }
       break;
+  }
+}
+void LL1Parser::AnalyzeLL1() {
+  spdlog::info("[Analyze tokens]");
+  // int main() {int x = 1; return 0;}
+//  std::vector<size_t> tks{3, 4, 5, 6, 7, 3, 4, 15, 4, 14, 16, 4, 14, 8};
+  std::vector<size_t> tks{3, 4, 5, 6, 7, 3, 4, 15, 4, 14, 16, 4, 14, 8, 14, 15, 16};
+  std::deque<size_t> analysis_stack;
+  analysis_stack.push_back(EOT);
+  analysis_stack.push_front(0);
+  int p = 0;
+  while (!analysis_stack.empty()) {
+    if (analysis_stack.front() == EPSILON) {
+      analysis_stack.pop_front();
+    }
+    if (analysis_stack.front() != tks[p]) {
+      auto production = select_[analysis_stack.front()][tks[p]];
+      auto right = production.second;
+      analysis_stack.pop_front();
+      std::reverse(right.begin(), right.end());
+      for (const auto &item : right) {
+        analysis_stack.push_front(item);
+      }
+    } else if (analysis_stack.front() == tks[p]) {
+      analysis_stack.pop_front();
+      p++;
+    }
+  }
+  if (p == tks.size()) {
+    spdlog::info("SUCCESS");
+  } else {
+    spdlog::error("ERROR OCCURRED WHEN DOING THE GRAMMAR ANALYSIS");
+    std::string input{};
+    for (int i = 0; i < tks.size(); ++i) {
+      if (i == p) {
+        input += "[error] ";
+      }
+      input += token_map_re_[tks[i]] + " ";
+    }
+    spdlog::warn("You have an error in your syntax");
+    spdlog::warn("the error may happens here: {}", input);
   }
 }
 

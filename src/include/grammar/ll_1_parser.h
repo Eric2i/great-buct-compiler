@@ -40,6 +40,7 @@ class LL1Parser : public GrammarParser {
 
   // Analyze whether a serial of tokens live up to the syntax rules
   void Analyze(Tokens tokens) override;
+  void AnalyzeLL1();
 
   enum LL1PrintOption {
     FIRST = 0,
