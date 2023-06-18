@@ -211,16 +211,16 @@ void LL1Parser::Analyze(Tokens tokens) {
 
   std::vector<TokenId> tks{};
   for (lex::Token item : tokens) {
-    if (item.name() == "number" || item.name() == "digit") {
+    if (item.name() == "number" || item.name() == "digit" || item.name() == "digits") {
       tks.push_back(token_map_["NUMBER"]);
     } else {
       tks.push_back(token_map_[item.name()]);
     }
   }
-  std::deque<std::pair<TokenId, ASTNode*>> analysis_stack;
+  std::deque<std::pair<TokenId, ASTNode *>> analysis_stack;
   analysis_stack.push_back({EOT, {}});
 
-  ASTNode* root = new ASTNode(0);
+  ASTNode *root = new ASTNode(0);
   analysis_stack.emplace_front(0, root);
 
   int p = 0;
@@ -242,7 +242,7 @@ void LL1Parser::Analyze(Tokens tokens) {
       analysis_stack.pop_front();
       std::reverse(right.begin(), right.end());
       for (const auto &item : right) {
-        ASTNode* node = new ASTNode(item);
+        ASTNode *node = new ASTNode(item);
         parent.second->AddChild(node);
         analysis_stack.emplace_front(item, node);
       }
