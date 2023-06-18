@@ -21,7 +21,7 @@ namespace gbc::lex {
                 if (isMarked.find(T) == isMarked.end()) {
                     // found unmarked state T
                     isMarked[T] = true;
-                    for (auto a: this->alphabet._alphabet) {
+                    for (auto a: this->alphabet) {
                         std::set<int> U = epsilon_closure(move(T, a, N), N);
                         if (U.empty()) continue; // !exsist U=move(T,a), then nothing to do
                         if (this->Dstates.find(U) == this->Dstates.end()) {
@@ -159,7 +159,7 @@ namespace gbc::lex {
         }
         // define transition table
         for (auto s: dfa.Dstates) {
-            for (auto c: D.alphabet._alphabet) {
+            for (auto c: D.alphabet) {
                 DFAState t = D.trans(s, c);
                 if (t.size() > 0) dfa.Dtrans[{Repr[PartitionID[s]], c}] = Repr[PartitionID[t]];
             }
@@ -197,7 +197,7 @@ namespace gbc::lex {
         std::map<std::vector<int>, std::set<DFAState>> subsets;
         for (auto g: G) {
             std::vector<int> v;
-            for (auto c: D.alphabet._alphabet) v.push_back(PartitionID[D.trans(g, c)]);
+            for (auto c: D.alphabet) v.push_back(PartitionID[D.trans(g, c)]);
             subsets[v].insert(g);
         }
         // show_vectorization(subsets);
@@ -212,7 +212,7 @@ namespace gbc::lex {
     void show_DFA(DFA &D) {
         std::cerr << "alphabet============================" << std::endl;
         short new_line = 10;
-        for (char c: D.alphabet._alphabet) {
+        for (auto c: D.alphabet) {
             std::cerr << c << " ";
             if (--new_line == 0) {
                 std::cerr << std::endl;
@@ -264,7 +264,7 @@ namespace gbc::lex {
             DFAState state = states.top();
             char c = input[i];
             // std::cerr << "current char:" << c << std::endl;
-            if (M.alphabet._alphabet.find(c) == M.alphabet._alphabet.end()) {
+            if (!M.alphabet.has(c)) {
                 std::cerr << "ERROR: character " << c <<"(" <<(int)c << ") not in alphabet" << std::endl;
                 exit(1);
             }
