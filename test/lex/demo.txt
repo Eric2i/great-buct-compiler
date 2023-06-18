@@ -1,4 +1,10 @@
-int main () {
-   if(xx){int xx = 1;}elif(yy){int yy = 2;}else{int zz = 3;}
-   while(aa){int aa = 4;}
+int main() {
+    int NN;
+    if (num <= 1){
+            return num;
+        }
+        else {
+            return 1 + 2;
+        }
+    return 00;
 }
