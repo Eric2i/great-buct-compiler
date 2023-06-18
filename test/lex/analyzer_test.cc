@@ -13,9 +13,9 @@ namespace gbc::lex {
         std::cerr << "building DFA..." << std::endl; DFA dfa; dfa.NFA2DFA(nfa);
         std::cerr << "Minimizing DFA..." << std::endl;DFA minDFA = DFAMinimize(dfa);
 //        show_DFA(minDFA);
-
         path src = "../test/lex/sourceCode.txt";
         LexicalAnalyzer analyzer(minDFA);
         std::cerr << "Parsing Source Codes..." << std::endl; auto result = analyzer.parse(src);
+        return true;
     }
 }

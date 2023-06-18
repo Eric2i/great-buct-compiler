@@ -13,14 +13,22 @@ namespace gbc::lex {
         }
     }
 
-    bool Alphabet::isInAlphabet(char &c) {
+    bool Alphabet::has(const char &c) {
         return this->_alphabet.find(c) != this->_alphabet.end();
     }
 
-    bool Alphabet::append(char &c) {
-        if(this->isInAlphabet(c)) return false;
+    bool Alphabet::insert(const char &c) {
+        if(this->has(c)) return false;
         this->_alphabet.insert(c);
         return true;
+    }
+
+    std::set<char>::iterator Alphabet::begin() {
+        return this->_alphabet.begin();
+    }
+
+    std::set<char>::iterator Alphabet::end() {
+        return this->_alphabet.end();
     }
 
 } // gbc::lex namespace
