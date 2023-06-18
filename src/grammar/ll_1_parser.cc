@@ -3,8 +3,8 @@
 //
 
 #include "../include/grammar/ll_1_parser.h"
-#include "../include/lex/token.h"
 #include "spdlog/spdlog.h"
+#include <iostream>
 
 namespace gbc::grammar {
 
@@ -120,7 +120,7 @@ void LL1Parser::GetFollow() {
         for (const auto &i : item) {
           production += token_map_re_[i] + " ";
         }
-        spdlog::warn("current production: {}", production);
+//        spdlog::warn("current production: {}", production);
         for (int i = 0; i < item.size(); ++i) {
           // If the token is non-terminal, put the first set of the following token into the follower set
           if (IsNonTerminal(item[i])) {
@@ -139,13 +139,13 @@ void LL1Parser::GetFollow() {
                       and res == non_terminal_follow.end()) {
                     changed = true;
                     non_terminal_follow.insert(f);
-                    spdlog::warn("add {}: {}", token_map_re_[item[i]], token_map_re_[f]);
+//                    spdlog::warn("add {}: {}", token_map_re_[item[i]], token_map_re_[f]);
                   }
                 }
               } else if (auto res = non_terminal_follow.find(item[i + 1]); res == non_terminal_follow.end()) {
                 changed = true;
                 non_terminal_follow.insert(item[i + 1]);
-                spdlog::warn("add {}: {}", token_map_re_[item[i]], token_map_re_[item[i + 1]]);
+//                spdlog::warn("add {}: {}", token_map_re_[item[i]], token_map_re_[item[i + 1]]);
               }
             }
             if ((i == (item.size() - 1)) or (contain_epsilon and i == (item.size() - 2))) {
@@ -154,7 +154,7 @@ void LL1Parser::GetFollow() {
                   if (auto res = non_terminal_follow.find(left_follower); res == non_terminal_follow.end()) {
                     changed = true;
                     non_terminal_follow.insert(left_follower);
-                    spdlog::warn("add {}: {}", token_map_re_[item[i]], token_map_re_[left_follower]);
+//                    spdlog::warn("add {}: {}", token_map_re_[item[i]], token_map_re_[left_follower]);
                   }
                 }
               }
@@ -176,29 +176,29 @@ void LL1Parser::BuildAnalysisTable() {
           if (auto res = first_[item[0]].find(EPSILON); res == first_[item[0]].end()) {
             for (const auto &f : first_[item[0]]) {
               select_[left][f] = std::make_pair(left, item);
-              spdlog::warn("add production for : [{}, {}]", token_map_re_[left], token_map_re_[f]);
+//              spdlog::warn("add production for : [{}, {}]", token_map_re_[left], token_map_re_[f]);
             }
           } else {
             for (const auto &f : first_[item[0]]) {
               if (f != EPSILON) {
                 select_[left][f] = std::make_pair(left, item);
-                spdlog::warn("add production for : [{}, {}]", token_map_re_[left], token_map_re_[f]);
+//                spdlog::warn("add production for : [{}, {}]", token_map_re_[left], token_map_re_[f]);
               }
             }
             for (const auto &f : follow_[left]) {
               select_[left][f] = std::make_pair(left, item);
-              spdlog::warn("add production for : [{}, {}]", token_map_re_[left], token_map_re_[f]);
+//              spdlog::warn("add production for : [{}, {}]", token_map_re_[left], token_map_re_[f]);
             }
           }
         } else {
           select_[left][item[0]] = std::make_pair(left, item);
-          spdlog::warn("add production for : [{}, {}]", token_map_re_[left], token_map_re_[item[0]]);
+//          spdlog::warn("add production for : [{}, {}]", token_map_re_[left], token_map_re_[item[0]]);
         }
       } else {
         for (const auto &f : follow_[left]) {
           if (select_[left][f].second.empty()) {
             select_[left][f] = std::make_pair(left, item);
-            spdlog::warn("add production for : [{}, {}]", token_map_re_[left], token_map_re_[f]);
+//            spdlog::warn("add production for : [{}, {}]", token_map_re_[left], token_map_re_[f]);
           }
         }
       }
@@ -209,44 +209,63 @@ void LL1Parser::BuildAnalysisTable() {
 void LL1Parser::Analyze(Tokens tokens) {
   spdlog::info("[Analyze tokens]");
 
-  std::vector<TokenId> tks{};
-  for (lex::Token item : tokens) {
+  std::vector<TokenSeq> tks{};
+  for (int i = 0; i < tokens.size(); ++i) {
+    auto item = tokens[i];
+    TokenId token_id;
     if (item.name() == "number" || item.name() == "digit" || item.name() == "digits") {
-      tks.push_back(token_map_["NUMBER"]);
+      tokens[i].SetName("NUMBER");
+      token_id = token_map_["NUMBER"];
     } else {
-      tks.push_back(token_map_[item.name()]);
+      token_id = token_map_[item.name()];
     }
+    tks.push_back({token_id, i});
+    token_id_map_.insert({token_id, item});
   }
-  std::deque<std::pair<TokenId, ASTNode *>> analysis_stack;
-  analysis_stack.push_back({EOT, {}});
+  std::deque<std::pair<TokenSeq, ASTNode *>> analysis_stack;
+  analysis_stack.push_back({{EOT, -2}, {}});
 
-  ASTNode *root = new ASTNode(0);
-  analysis_stack.emplace_front(0, root);
+  ASTNode *root = new ASTNode(0, tokens);
+  root->map_ = token_id_map_;
+  analysis_stack.push_front({{0, 0}, root});
 
   int p = 0;
   while (!analysis_stack.empty()) {
-    if (analysis_stack.front().first == EPSILON) {
+    if (analysis_stack.front().first.first == EPSILON) {
       analysis_stack.pop_front();
     }
-    if (analysis_stack.front().first != tks[p]) {
-      auto production = select_[analysis_stack.front().first][tks[p]];
+    if (analysis_stack.front().first.first != tks[p].first) {
+      auto production = select_[analysis_stack.front().first.first][tks[p].first];
 
       std::string pd = token_map_re_[production.first] + " -> ";
       for (const auto &r : production.second) {
         pd += token_map_re_[r] + " ";
       }
-      spdlog::info("[{}, {}]: {}", token_map_re_[analysis_stack.front().first], token_map_re_[tks[p]], pd);
+      spdlog::info("[{}, {}]: {}", token_map_re_[analysis_stack.front().first.first], token_map_re_[tks[p].first], pd);
 
       auto right = production.second;
       auto parent = analysis_stack.front();
       analysis_stack.pop_front();
       std::reverse(right.begin(), right.end());
       for (const auto &item : right) {
-        ASTNode *node = new ASTNode(item);
-        parent.second->AddChild(node);
-        analysis_stack.emplace_front(item, node);
+        ASTNode *node = new ASTNode(item, tokens);
+        parent.second->AddChild(node, parent.second);
+        // TODO
+        analysis_stack.push_front({{item, 0}, node});
       }
-    } else if (analysis_stack.front().first == tks[p]) {
+    } else if (analysis_stack.front().first.first == tks[p].first) {
+      // TODO
+      auto res = analysis_stack.front();
+      spdlog::warn("{}", token_map_re_[res.first.first]);
+      if (token_map_re_[res.first.first] == "NUMBER") {
+        res.second->type_ = ASTNode::Type::NUMBER;
+        res.second->id = p;
+        res.second->CodeGen()->print(llvm::errs());
+      } else if (token_map_re_[res.first.first] == "IDENTIFIER") {
+        res.second->type_ = ASTNode::Type::VARIABLE;
+        res.second->id = p;
+        res.second->CodeGen();
+      }
       analysis_stack.pop_front();
       p++;
     }
@@ -260,13 +279,27 @@ void LL1Parser::Analyze(Tokens tokens) {
       if (i == p) {
         input += "[error] ";
       }
-      input += token_map_re_[tks[i]] + " ";
+      input += token_map_re_[tks[i].first] + " ";
     }
     spdlog::error("You have an error in your syntax");
     spdlog::error("the error may happens here: {}", input);
   }
 
   root->Print();
+
+  std::deque<ASTNode *> semantic{root};
+  std::deque<ASTNode *> leafs;
+  while (!semantic.empty()) {
+    auto current_node = semantic.front();
+    semantic.pop_front();
+    if (current_node->children.empty()) {
+      leafs.push_back(current_node);
+    } else {
+      for (const auto &item : current_node->children) {
+        semantic.push_back(item);
+      }
+    }
+  }
 }
 
 void LL1Parser::LL1Print(LL1PrintOption option) {
@@ -349,6 +382,55 @@ void LL1Parser::AnalyzeLL1() {
     spdlog::error("You have an error in your syntax");
     spdlog::error("the error may happens here: {}", input);
   }
+}
+std::string LL1Parser::PostAnalyze(Tokens tokens) {
+  std::string res;
+  for (int i = 0; i < tokens.size(); ++i) {
+    auto current = tokens[i];
+    if (current.name() == "TYPE") {
+      if (tokens[i + 2].name() == "LEFT_BRACKET") {
+        res += "def " + tokens[i + 1].unknown() + "(";
+        i += 3;
+        while (tokens[i].name() != "RIGHT_BRACKET") {
+          res += tokens[i + 1].unknown() + " ";
+          i += 2;
+        }
+        res += ")";
+        i++;
+      }
+    } else if(current.name() == "IF") {
+      res += "if (";
+      i+=2;
+      while(tokens[i].name() != "RIGHT_BRACKET") {
+        res += tokens[i].unknown();
+        i++;
+      }
+      res += ") then ";
+      i+=2;
+      if (tokens[i].name() == "RETURN") {
+        i++;
+        while(tokens[i].name() != "SEMICOLON") {
+          res += tokens[i].unknown();
+          i++;
+        }
+        i++;
+      }
+    } else if (current.name() == "ELSE") {
+      i+=2;
+      res += " else ";
+      if (tokens[i].name() == "RETURN") {
+        i++;
+        while(tokens[i].name() != "SEMICOLON") {
+          res += tokens[i].unknown();
+          i++;
+        }
+      }
+      i-=2;
+    }
+  }
+  res += ";\n";
+  std::cout << res << std::endl;
+  return res;
 }
 
 } // grammar

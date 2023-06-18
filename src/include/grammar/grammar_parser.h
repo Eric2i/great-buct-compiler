@@ -17,6 +17,7 @@ namespace gbc::grammar {
 
 using TokenId = long long;
 using Tokens = std::vector<lex::Token>;
+using TokenIdMap = std::map<TokenId, lex::Token>;
 using TokenStringSet = std::set<std::string>;
 using TokenSet = std::set<TokenId>;
 using TokenMap = std::map<std::string, TokenId>;
@@ -38,6 +39,7 @@ class GrammarParser {
   // Example: { "A": 0, "B": 1 }
   TokenMap token_map_;
   TokenMapRe token_map_re_;
+  TokenIdMap token_id_map_;
 
   // The left part of production is the token id of the left.
   // The right part of the production is the vector of possible products,
