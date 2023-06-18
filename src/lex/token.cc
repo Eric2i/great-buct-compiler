@@ -184,4 +184,12 @@ namespace gbc::lex {
         this->_pattern = std::move(new_pattern);
         return true;
     }
+
+    void Token::set_unknown_attribute(const attribute_t & lexeme) {
+      this->_unknown = lexeme;
+    }
+
+    attribute_t Token::unknown() {
+      return this->_unknown;
+    }
 } // gbc::lex namespace

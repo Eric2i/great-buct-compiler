@@ -30,6 +30,10 @@ namespace gbc::lex {
 
         attribute_t value();
 
+        attribute_t unknown();
+
+        void set_unknown_attribute(const attribute_t&);
+
         bool update_pattern(token_pattern);
 
         bool infix_to_postfix();
@@ -40,6 +44,7 @@ namespace gbc::lex {
         token_id _id;
         token_name _name;
         token_pattern _pattern;
+        attribute_t _unknown;
         attribute_t _type;
         attribute_t _value;
     };

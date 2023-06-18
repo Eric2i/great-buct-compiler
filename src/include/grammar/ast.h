@@ -6,6 +6,8 @@
 #define GREAT_BUCT_COMPILER_SRC_GRAMMAR_AST_H_
 
 #include "grammar_parser.h"
+#include <deque>
+
 namespace gbc::grammar {
 
 class ASTNode {
@@ -13,6 +15,7 @@ class ASTNode {
   TokenId id;
   ASTNode *father{};
   std::vector<ASTNode *> children;
+
  public:
   explicit ASTNode(TokenId id) : id(id) {};
   ASTNode* BuildSubTreeFromProduction(Tokens children);

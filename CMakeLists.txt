@@ -5,7 +5,6 @@ set(CMAKE_CXX_STANDARD 17)
 
 set(GBC_SRC
         main.cpp
-        interface.cpp
         src/lex/token.cc src/include/lex/token.h
         src/include/lex/error_message.h
         src/include/lex/dfa.h
@@ -20,7 +19,6 @@ set(GBC_SRC
         src/lex/nfa.cc src/lex/dfa.cc src/lex/lexical_analyzer.cc test/grammar/grammar_analyzer_tester.cc src/grammar/ast.cc src/include/grammar/ast.h src/grammar/ast.cc src/include/grammar/ast.h)
 
 add_executable(${PROJECT_NAME} ${GBC_SRC})
-add_executable(run interface.cpp)
 
 find_package(spdlog CONFIG REQUIRED)
 find_package(nlohmann_json CONFIG REQUIRED)
