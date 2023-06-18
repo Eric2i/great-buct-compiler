@@ -1,3 +1,4 @@
 int main () {
-    int xx = 0;
+   if(xx){int xx = 1;}elif(yy){int yy = 2;}else{int zz = 3;}
+   while(aa){int aa = 4;}
 }

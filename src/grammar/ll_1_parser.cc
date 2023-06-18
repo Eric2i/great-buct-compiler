@@ -206,7 +206,6 @@ void LL1Parser::BuildAnalysisTable() {
   }
 }
 
-// TODO Whether tokens should from syntax rules or regex?
 void LL1Parser::Analyze(Tokens tokens) {
   spdlog::info("[Analyze tokens]");
 

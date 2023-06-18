@@ -148,6 +148,198 @@
           "symbols": [
             {
               "type": "non-terminal",
+              "value": "simple-stmt"
+            }
+          ]
+        },
+        {
+          "symbols": [
+            {
+              "type": "terminal",
+              "value": "IF"
+            },
+            {
+              "type": "terminal",
+              "value": "LEFT_BRACKET"
+            },
+            {
+              "type": "non-terminal",
+              "value": "expr"
+            },
+            {
+              "type": "terminal",
+              "value": "RIGHT_BRACKET"
+            },
+            {
+              "type": "terminal",
+              "value": "LEFT_CURLYBRACE"
+            },
+            {
+              "type": "non-terminal",
+              "value": "block"
+            },
+            {
+              "type": "terminal",
+              "value": "RIGHT_CURLYBRACE"
+            },
+            {
+              "type": "non-terminal",
+              "value": "if-tail"
+            }
+          ]
+        },
+        {
+          "symbols": [
+            {
+              "type": "terminal",
+              "value": "WHILE"
+            },
+            {
+              "type": "terminal",
+              "value": "LEFT_BRACKET"
+            },
+            {
+              "type": "non-terminal",
+              "value": "expr"
+            },
+            {
+              "type": "terminal",
+              "value": "RIGHT_BRACKET"
+            },
+            {
+              "type": "terminal",
+              "value": "LEFT_CURLYBRACE"
+            },
+            {
+              "type": "non-terminal",
+              "value": "block"
+            },
+            {
+              "type": "terminal",
+              "value": "RIGHT_CURLYBRACE"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "if-tail",
+      "productions": [
+        {
+          "symbols": [
+            {
+              "type": "terminal",
+              "value": "ELSE_IF"
+            },
+            {
+              "type": "terminal",
+              "value": "LEFT_BRACKET"
+            },
+            {
+              "type": "non-terminal",
+              "value": "expr"
+            },
+            {
+              "type": "terminal",
+              "value": "RIGHT_BRACKET"
+            },
+            {
+              "type": "terminal",
+              "value": "LEFT_CURLYBRACE"
+            },
+            {
+              "type": "non-terminal",
+              "value": "block"
+            },
+            {
+              "type": "terminal",
+              "value": "RIGHT_CURLYBRACE"
+            },
+            {
+              "type": "non-terminal",
+              "value": "if-tail"
+            }
+          ]
+        },
+        {
+          "symbols": [
+            {
+              "type": "terminal",
+              "value": "ELSE"
+            },
+            {
+              "type": "terminal",
+              "value": "LEFT_CURLYBRACE"
+            },
+            {
+              "type": "non-terminal",
+              "value": "block"
+            },
+            {
+              "type": "terminal",
+              "value": "RIGHT_CURLYBRACE"
+            }
+          ]
+        },
+        {
+          "symbols": [
+            {
+              "type": "terminal",
+              "value": "epsilon"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "block",
+      "productions": [
+        {
+          "symbols": [
+            {
+              "type": "non-terminal",
+              "value": "stmt"
+            },
+            {
+              "type": "non-terminal",
+              "value": "block-tail"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "block-tail",
+      "productions": [
+        {
+          "symbols": [
+            {
+              "type": "non-terminal",
+              "value": "stmt"
+            },
+            {
+              "type": "non-terminal",
+              "value": "block-tail"
+            }
+          ]
+        },
+        {
+          "symbols": [
+            {
+              "type": "terminal",
+              "value": "epsilon"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "simple-stmt",
+      "productions": [
+        {
+          "symbols": [
+            {
+              "type": "non-terminal",
               "value": "expr"
             },
             {
@@ -272,7 +464,8 @@
               "value": "cexpr"
             }
           ]
-        },{
+        },
+        {
           "symbols": [
             {
               "type": "non-terminal",
@@ -290,22 +483,26 @@
             {
               "type": "terminal",
               "value": "LEFT_BRACKET"
-            },{
+            },
+            {
               "type": "non-terminal",
               "value": "expr"
-            },{
+            },
+            {
               "type": "terminal",
               "value": "RIGHT_BRACKET"
             }
           ]
-        },{
+        },
+        {
           "symbols": [
             {
               "type": "terminal",
               "value": "NUMBER"
             }
           ]
-        },{
+        },
+        {
           "symbols": [
             {
               "type": "terminal",
