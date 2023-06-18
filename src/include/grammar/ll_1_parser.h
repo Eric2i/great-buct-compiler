@@ -11,7 +11,7 @@ namespace gbc::grammar {
 
 using FirstOrFollowSet = std::unordered_map<TokenId, std::set<TokenId>>;
 using SelectTable = std::unordered_map<TokenId, std::unordered_map<TokenId, std::pair<TokenId, std::vector<TokenId>>>>;
-
+using TokenSeq = std::pair<TokenId, TokenId>; // Token id from grammar + token id from token sequence
 // The LL1 parser extends Grammar Parser and is used to define
 // whether a serial of tokens_ from Lex is conformed to the syntax rules
 class LL1Parser : public GrammarParser {
@@ -41,6 +41,7 @@ class LL1Parser : public GrammarParser {
   // Analyze whether a serial of tokens live up to the syntax rules
   void Analyze(Tokens tokens) override;
   void AnalyzeLL1();
+  std::string PostAnalyze(Tokens tokens);
 
   enum LL1PrintOption {
     FIRST = 0,
