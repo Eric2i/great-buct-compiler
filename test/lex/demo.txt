@@ -1,10 +1,13 @@
-int main() {
-    int NN;
+int fibonacci(int num) {
     if (num <= 1){
-            return num;
-        }
-        else {
-            return 1 + 2;
-        }
-    return 00;
+        return num;
+    }
+    else{
+        return fibonacci(n-1) + fibonacci(n-2);
+    }
+}
+int main() {
+    int NUM;
+    fibonacci(NUM);
+    return 0;
 }

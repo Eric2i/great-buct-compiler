@@ -6,16 +6,30 @@
         {
           "symbols": [
             {
-              "type": "terminal",
-              "value": "epsilon"
+              "type": "non-terminal",
+              "value": "program-tail"
             }
           ]
-        },
+        }
+      ]
+    },{
+      "name": "program-tail",
+      "productions": [
         {
           "symbols": [
             {
               "type": "non-terminal",
               "value": "func_def"
+            },{
+              "type": "non-terminal",
+              "value": "program-tail"
+            }
+          ]
+        },{
+          "symbols": [
+            {
+              "type": "terminal",
+              "value": "epsilon"
             }
           ]
         }
@@ -507,6 +521,80 @@
             {
               "type": "terminal",
               "value": "IDENTIFIER"
+            }
+          ]
+        },
+        {
+          "symbols": [
+            {
+              "type": "terminal",
+              "value": "IDENTIFIER"
+            },
+            {
+              "type": "non-terminal",
+              "value": "cexpr_tail"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "cexpr_tail",
+      "productions": [
+        {
+          "symbols": [
+            {
+              "type": "terminal",
+              "value": "LEFT_BRACKET"
+            },
+            {
+              "type": "non-terminal",
+              "value": "expr"
+            },
+            {
+              "type": "non-terminal",
+              "value": "cexpr_args_tail"
+            },
+            {
+              "type": "terminal",
+              "value": "RIGHT_BRACKET"
+            }
+          ]
+        },
+        {
+          "symbols": [
+            {
+              "type": "terminal",
+              "value": "epsilon"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "cexpr_args_tail",
+      "productions": [
+        {
+          "symbols": [
+            {
+              "type": "terminal",
+              "value": "COMMA"
+            },
+            {
+              "type": "non-terminal",
+              "value": "expr"
+            },
+            {
+              "type": "non-terminal",
+              "value": "cexpr_args_tail"
+            }
+          ]
+        },
+        {
+          "symbols": [
+            {
+              "type": "terminal",
+              "value": "epsilon"
             }
           ]
         }
