@@ -1,0 +1,62 @@
+[
+{
+  "directory": "C:/Users/DBZQ/Desktop/great-buct-compiler/build",
+  "command": "D:\\mingw64\\bin\\g++.exe   -g -std=gnu++17 -o CMakeFiles\\great_buct_compiler.dir\\main.cpp.obj -c C:\\Users\\DBZQ\\Desktop\\great-buct-compiler\\main.cpp",
+  "file": "C:/Users/DBZQ/Desktop/great-buct-compiler/main.cpp",
+  "output": "CMakeFiles/great_buct_compiler.dir/main.cpp.obj"
+},
+{
+  "directory": "C:/Users/DBZQ/Desktop/great-buct-compiler/build",
+  "command": "D:\\mingw64\\bin\\g++.exe   -g -std=gnu++17 -o CMakeFiles\\great_buct_compiler.dir\\src\\lex\\token.cc.obj -c C:\\Users\\DBZQ\\Desktop\\great-buct-compiler\\src\\lex\\token.cc",
+  "file": "C:/Users/DBZQ/Desktop/great-buct-compiler/src/lex/token.cc",
+  "output": "CMakeFiles/great_buct_compiler.dir/src/lex/token.cc.obj"
+},
+{
+  "directory": "C:/Users/DBZQ/Desktop/great-buct-compiler/build",
+  "command": "D:\\mingw64\\bin\\g++.exe   -g -std=gnu++17 -o CMakeFiles\\great_buct_compiler.dir\\src\\lex\\rules.cc.obj -c C:\\Users\\DBZQ\\Desktop\\great-buct-compiler\\src\\lex\\rules.cc",
+  "file": "C:/Users/DBZQ/Desktop/great-buct-compiler/src/lex/rules.cc",
+  "output": "CMakeFiles/great_buct_compiler.dir/src/lex/rules.cc.obj"
+},
+{
+  "directory": "C:/Users/DBZQ/Desktop/great-buct-compiler/build",
+  "command": "D:\\mingw64\\bin\\g++.exe   -g -std=gnu++17 -o CMakeFiles\\great_buct_compiler.dir\\src\\grammar\\grammar_analyzer.cc.obj -c C:\\Users\\DBZQ\\Desktop\\great-buct-compiler\\src\\grammar\\grammar_analyzer.cc",
+  "file": "C:/Users/DBZQ/Desktop/great-buct-compiler/src/grammar/grammar_analyzer.cc",
+  "output": "CMakeFiles/great_buct_compiler.dir/src/grammar/grammar_analyzer.cc.obj"
+},
+{
+  "directory": "C:/Users/DBZQ/Desktop/great-buct-compiler/build",
+  "command": "D:\\mingw64\\bin\\g++.exe   -g -std=gnu++17 -o CMakeFiles\\great_buct_compiler.dir\\src\\grammar\\grammar_parser.cc.obj -c C:\\Users\\DBZQ\\Desktop\\great-buct-compiler\\src\\grammar\\grammar_parser.cc",
+  "file": "C:/Users/DBZQ/Desktop/great-buct-compiler/src/grammar/grammar_parser.cc",
+  "output": "CMakeFiles/great_buct_compiler.dir/src/grammar/grammar_parser.cc.obj"
+},
+{
+  "directory": "C:/Users/DBZQ/Desktop/great-buct-compiler/build",
+  "command": "D:\\mingw64\\bin\\g++.exe   -g -std=gnu++17 -o CMakeFiles\\great_buct_compiler.dir\\src\\grammar\\ll_1_parser.cc.obj -c C:\\Users\\DBZQ\\Desktop\\great-buct-compiler\\src\\grammar\\ll_1_parser.cc",
+  "file": "C:/Users/DBZQ/Desktop/great-buct-compiler/src/grammar/ll_1_parser.cc",
+  "output": "CMakeFiles/great_buct_compiler.dir/src/grammar/ll_1_parser.cc.obj"
+},
+{
+  "directory": "C:/Users/DBZQ/Desktop/great-buct-compiler/build",
+  "command": "D:\\mingw64\\bin\\g++.exe   -g -std=gnu++17 -o CMakeFiles\\great_buct_compiler.dir\\src\\lex\\alphabet.cpp.obj -c C:\\Users\\DBZQ\\Desktop\\great-buct-compiler\\src\\lex\\alphabet.cpp",
+  "file": "C:/Users/DBZQ/Desktop/great-buct-compiler/src/lex/alphabet.cpp",
+  "output": "CMakeFiles/great_buct_compiler.dir/src/lex/alphabet.cpp.obj"
+},
+{
+  "directory": "C:/Users/DBZQ/Desktop/great-buct-compiler/build",
+  "command": "D:\\mingw64\\bin\\g++.exe   -g -std=gnu++17 -o CMakeFiles\\great_buct_compiler.dir\\src\\lex\\nfa.cc.obj -c C:\\Users\\DBZQ\\Desktop\\great-buct-compiler\\src\\lex\\nfa.cc",
+  "file": "C:/Users/DBZQ/Desktop/great-buct-compiler/src/lex/nfa.cc",
+  "output": "CMakeFiles/great_buct_compiler.dir/src/lex/nfa.cc.obj"
+},
+{
+  "directory": "C:/Users/DBZQ/Desktop/great-buct-compiler/build",
+  "command": "D:\\mingw64\\bin\\g++.exe   -g -std=gnu++17 -o CMakeFiles\\great_buct_compiler.dir\\src\\lex\\dfa.cc.obj -c C:\\Users\\DBZQ\\Desktop\\great-buct-compiler\\src\\lex\\dfa.cc",
+  "file": "C:/Users/DBZQ/Desktop/great-buct-compiler/src/lex/dfa.cc",
+  "output": "CMakeFiles/great_buct_compiler.dir/src/lex/dfa.cc.obj"
+},
+{
+  "directory": "C:/Users/DBZQ/Desktop/great-buct-compiler/build",
+  "command": "D:\\mingw64\\bin\\g++.exe   -g -std=gnu++17 -o CMakeFiles\\great_buct_compiler.dir\\src\\lex\\lexical_analyzer.cc.obj -c C:\\Users\\DBZQ\\Desktop\\great-buct-compiler\\src\\lex\\lexical_analyzer.cc",
+  "file": "C:/Users/DBZQ/Desktop/great-buct-compiler/src/lex/lexical_analyzer.cc",
+  "output": "CMakeFiles/great_buct_compiler.dir/src/lex/lexical_analyzer.cc.obj"
+}
+]
