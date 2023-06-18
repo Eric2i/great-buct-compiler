@@ -263,10 +263,9 @@ namespace gbc::lex {
         for (int i = 0; i < input.size(); i++) {
             DFAState state = states.top();
             char c = input[i];
-            // std::cerr << "current char:" << c << std::endl;
             if (!M.alphabet.has(c)) {
-                std::cerr << "ERROR: character " << c <<"(" <<(int)c << ") not in alphabet" << std::endl;
-                exit(1);
+                std::cerr << "ERROR: \n\tUnknown character " << c <<"(" <<(int)c << ")." << std::endl;
+                continue;
             }
             DFAState next_state = M.trans(state, c);
             if (next_state != DFAState()) {
