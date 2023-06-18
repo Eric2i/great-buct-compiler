@@ -11,12 +11,24 @@
 namespace gbc::lex {
 
     class Alphabet {
+    public:
+        Alphabet() = default;
+
+        ~Alphabet() = default;
+
+        void initiate();
+
+        bool has(const char &c);
+
+        bool insert(const char &c);
+
+        std::set<char>::iterator begin();
+
+        std::set<char>::iterator end();
+
     private:
         std::set<char> _alphabet;
-    public:
-        Alphabet();
-        bool isInAlphabet(char &c); // check if c is in alphabet
-        bool append(char &c); // add new character to alphabet
+
     };
 
 } // gbc::lex namespace
