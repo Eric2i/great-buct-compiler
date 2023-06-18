@@ -129,34 +129,52 @@ namespace gbc::lex {
         std::stack<NFA> NFAs;
         reset_state_counter();
         for (auto &token: rules.tokens()) {
-
             std::stack<NFA> operands;
-            for (int i = 0; i < token.pattern().size(); ++i) {
-                char c = token.pattern()[i];
-                if (c == '\\') {
-                    // case: special operand, push to stack
-                    c = token.pattern()[++i];
-                    operands.push(char2NFA(c));
-                } else if (!isRegexCharacter(c)) {
-                    // case: operand, push to stack
-                    operands.push(char2NFA(c));
-                } else {
-                    // case: operator, do regular expression operations
-                    NFA nfa1 = operands.top();
-                    operands.pop();
-                    if (c == '*') {
-                        operands.push(KleenClosure(nfa1));
-                    } else if (c == '+') {
-                        operands.push(PositiveClosure(nfa1));
-                    } else if (c == '?') {
-                        operands.push(Union(nfa1, char2NFA('\0'))); // r? <=> r | epsilon
+            if(token.name() == "IDENTIFIER") {
+                // cut the corner for annoying 'identifier' case
+                NFA head = char2NFA('a');
+                NFA tail = char2NFA(EPSILON);
+                NFA id_nfa = Concat(head, tail);
+                NFAState start = head.start;
+                NFAState accept = head.accept;
+                std::string _letters_ = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_";
+                std::string _digits = "0123456789";
+                for(auto c: _letters_) {
+                    id_nfa.states[start].outEdges.push_back({accept, c});
+                }
+                for(auto c: _letters_ + _digits) {
+                    id_nfa.states[accept].outEdges.push_back({accept, c});
+                }
+                operands.push(id_nfa);
+            }
+            else {
+                for (int i = 0; i < token.pattern().size(); ++i) {
+                    char c = token.pattern()[i];
+                    if (c == '\\') {
+                        // case: special operand, push to stack
+                        c = token.pattern()[++i];
+                        operands.push(char2NFA(c));
+                    } else if (!isRegexCharacter(c)) {
+                        // case: operand, push to stack
+                        operands.push(char2NFA(c));
                     } else {
-                        NFA nfa2 = operands.top();
+                        // case: operator, do regular expression operations
+                        NFA nfa1 = operands.top();
                         operands.pop();
-                        if (c == '#') {
-                            operands.push(Concat(nfa2, nfa1));
+                        if (c == '*') {
+                            operands.push(KleenClosure(nfa1));
+                        } else if (c == '+') {
+                            operands.push(PositiveClosure(nfa1));
+                        } else if (c == '?') {
+                            operands.push(Union(nfa1, char2NFA('\0'))); // r? <=> r | epsilon
                         } else {
-                            operands.push(Union(nfa2, nfa1));
+                            NFA nfa2 = operands.top();
+                            operands.pop();
+                            if (c == '#') {
+                                operands.push(Concat(nfa2, nfa1));
+                            } else {
+                                operands.push(Union(nfa2, nfa1));
+                            }
                         }
                     }
                 }
