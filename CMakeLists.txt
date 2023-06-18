@@ -16,7 +16,7 @@ set(GBC_SRC
         src/grammar/grammar_parser.cc src/include/grammar/grammar_parser.h
         src/grammar/ll_1_parser.cc src/include/grammar/ll_1_parser.h
         src/lex/alphabet.cc src/include/lex/alphabet.h
-        src/lex/nfa.cc src/lex/dfa.cc src/lex/lexical_analyzer.cc)
+        src/lex/nfa.cc src/lex/dfa.cc src/lex/lexical_analyzer.cc test/grammar/grammar_analyzer_tester.cc)
 
 add_executable(${PROJECT_NAME} ${GBC_SRC})
 

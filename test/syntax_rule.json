@@ -216,14 +216,6 @@
         {
           "symbols": [
             {
-              "type": "non-terminal",
-              "value": "cexpr"
-            }
-          ]
-        },
-        {
-          "symbols": [
-            {
               "type": "terminal",
               "value": "NOT"
             },
@@ -264,6 +256,29 @@
               "value": "expr"
             }
           ]
+        },
+        {
+          "symbols": [
+            {
+              "type": "non-terminal",
+              "value": "expr"
+            },
+            {
+              "type": "non-terminal",
+              "value": "bin_op"
+            },
+            {
+              "type": "non-terminal",
+              "value": "cexpr"
+            }
+          ]
+        },{
+          "symbols": [
+            {
+              "type": "non-terminal",
+              "value": "cexpr"
+            }
+          ]
         }
       ]
     },
@@ -274,39 +289,27 @@
           "symbols": [
             {
               "type": "terminal",
-              "value": "IDENTIFIER"
-            }
-          ]
-        },
-        {
-          "symbols": [
-            {
-              "type": "terminal",
               "value": "LEFT_BRACKET"
-            },
-            {
+            },{
               "type": "non-terminal",
               "value": "expr"
-            },
-            {
+            },{
               "type": "terminal",
               "value": "RIGHT_BRACKET"
             }
           ]
-        },
-        {
+        },{
           "symbols": [
             {
-              "type": "non-terminal",
-              "value": "cexpr"
-            },
+              "type": "terminal",
+              "value": "NUMBER"
+            }
+          ]
+        },{
+          "symbols": [
             {
-              "type": "non-terminal",
-              "value": "bin_op"
-            },
-            {
-              "type": "non-terminal",
-              "value": "cexpr"
+              "type": "terminal",
+              "value": "IDENTIFIER"
             }
           ]
         }
