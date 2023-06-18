@@ -1,0 +1,7 @@
+int main () {
+    /* this is the main function of our demonstration */
+    float @PI = 3.14; // define a variable with value 3.14
+    float radius = 2; // define another variable with value 2
+    double area = PI * radius * radius; // calculate the area of a circle
+    return 0;
+}
