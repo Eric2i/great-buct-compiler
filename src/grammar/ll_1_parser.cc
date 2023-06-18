@@ -3,6 +3,7 @@
 //
 
 #include "../include/grammar/ll_1_parser.h"
+#include "../include/lex/token.h"
 #include "spdlog/spdlog.h"
 
 namespace gbc::grammar {
@@ -115,6 +116,11 @@ void LL1Parser::GetFollow() {
     changed = false;
     for (const auto &[left, right] : productions) {
       for (const auto &item : right) {
+        std::string production = token_map_re_[left] + " - > ";
+        for (const auto &i : item) {
+          production += token_map_re_[i] + " ";
+        }
+        spdlog::warn("current production: {}", production);
         for (int i = 0; i < item.size(); ++i) {
           // If the token is non-terminal, put the first set of the following token into the follower set
           if (IsNonTerminal(item[i])) {
@@ -133,19 +139,22 @@ void LL1Parser::GetFollow() {
                       and res == non_terminal_follow.end()) {
                     changed = true;
                     non_terminal_follow.insert(f);
+                    spdlog::warn("add {}: {}", token_map_re_[item[i]], token_map_re_[f]);
                   }
                 }
               } else if (auto res = non_terminal_follow.find(item[i + 1]); res == non_terminal_follow.end()) {
                 changed = true;
                 non_terminal_follow.insert(item[i + 1]);
+                spdlog::warn("add {}: {}", token_map_re_[item[i]], token_map_re_[item[i + 1]]);
               }
             }
-            if ((i == (item.size() - 1)) or contain_epsilon) {
+            if ((i == (item.size() - 1)) or (contain_epsilon and i == (item.size() - 2))) {
               if (!follow_[left].empty()) {
                 for (const auto &left_follower : follow_[left]) {
                   if (auto res = non_terminal_follow.find(left_follower); res == non_terminal_follow.end()) {
                     changed = true;
                     non_terminal_follow.insert(left_follower);
+                    spdlog::warn("add {}: {}", token_map_re_[item[i]], token_map_re_[left_follower]);
                   }
                 }
               }
@@ -164,15 +173,33 @@ void LL1Parser::BuildAnalysisTable() {
     for (const auto &item : right) {
       if (item[0] != EPSILON) {
         if (IsNonTerminal(item[0])) {
-          for (const auto &f : first_[item[0]]) {
-            select_[left][f] = std::make_pair(left, item);
+          if (auto res = first_[item[0]].find(EPSILON); res == first_[item[0]].end()) {
+            for (const auto &f : first_[item[0]]) {
+              select_[left][f] = std::make_pair(left, item);
+              spdlog::warn("add production for : [{}, {}]", token_map_re_[left], token_map_re_[f]);
+            }
+          } else {
+            for (const auto &f : first_[item[0]]) {
+              if (f != EPSILON) {
+                select_[left][f] = std::make_pair(left, item);
+                spdlog::warn("add production for : [{}, {}]", token_map_re_[left], token_map_re_[f]);
+              }
+            }
+            for (const auto &f : follow_[left]) {
+              select_[left][f] = std::make_pair(left, item);
+              spdlog::warn("add production for : [{}, {}]", token_map_re_[left], token_map_re_[f]);
+            }
           }
         } else {
           select_[left][item[0]] = std::make_pair(left, item);
+          spdlog::warn("add production for : [{}, {}]", token_map_re_[left], token_map_re_[item[0]]);
         }
       } else {
         for (const auto &f : follow_[left]) {
-          select_[left][f] = std::make_pair(left, item);
+          if (select_[left][f].second.empty()) {
+            select_[left][f] = std::make_pair(left, item);
+            spdlog::warn("add production for : [{}, {}]", token_map_re_[left], token_map_re_[f]);
+          }
         }
       }
     }
@@ -182,7 +209,67 @@ void LL1Parser::BuildAnalysisTable() {
 // TODO Whether tokens should from syntax rules or regex?
 void LL1Parser::Analyze(Tokens tokens) {
   spdlog::info("[Analyze tokens]");
+
+  std::vector<TokenId> tks{};
+  for (lex::Token item : tokens) {
+    if (item.name() == "number" || item.name() == "digit") {
+      tks.push_back(token_map_["NUMBER"]);
+    } else {
+      tks.push_back(token_map_[item.name()]);
+    }
+  }
+  std::deque<std::pair<TokenId, ASTNode*>> analysis_stack;
+  analysis_stack.push_back({EOT, {}});
+
+  ASTNode* root = new ASTNode(0);
+  analysis_stack.emplace_front(0, root);
+
+  int p = 0;
+  while (!analysis_stack.empty()) {
+    if (analysis_stack.front().first == EPSILON) {
+      analysis_stack.pop_front();
+    }
+    if (analysis_stack.front().first != tks[p]) {
+      auto production = select_[analysis_stack.front().first][tks[p]];
+
+      std::string pd = token_map_re_[production.first] + " -> ";
+      for (const auto &r : production.second) {
+        pd += token_map_re_[r] + " ";
+      }
+      spdlog::info("[{}, {}]: {}", token_map_re_[analysis_stack.front().first], token_map_re_[tks[p]], pd);
+
+      auto right = production.second;
+      auto parent = analysis_stack.front();
+      analysis_stack.pop_front();
+      std::reverse(right.begin(), right.end());
+      for (const auto &item : right) {
+        ASTNode* node = new ASTNode(item);
+        parent.second->AddChild(node);
+        analysis_stack.emplace_front(item, node);
+      }
+    } else if (analysis_stack.front().first == tks[p]) {
+      analysis_stack.pop_front();
+      p++;
+    }
+  }
+  if (p == tks.size()) {
+    spdlog::info("SUCCESS");
+  } else {
+    spdlog::error("ERROR OCCURRED WHEN DOING THE GRAMMAR ANALYSIS");
+    std::string input{};
+    for (int i = 0; i < tks.size(); ++i) {
+      if (i == p) {
+        input += "[error] ";
+      }
+      input += token_map_re_[tks[i]] + " ";
+    }
+    spdlog::error("You have an error in your syntax");
+    spdlog::error("the error may happens here: {}", input);
+  }
+
+  root->Print();
 }
+
 void LL1Parser::LL1Print(LL1PrintOption option) {
 
   switch (option) {
@@ -213,6 +300,55 @@ void LL1Parser::LL1Print(LL1PrintOption option) {
         }
       }
       break;
+  }
+}
+void LL1Parser::AnalyzeLL1() {
+  spdlog::info("[Analyze tokens]");
+  // int main() {int x = 1; return 0;}
+  std::vector<size_t>
+      tks{3, 4, 5, 6, 7, 3, 4, 15, 22, 14, 3, 4, 15, 22, 14, 3, 4, 15, 4, 26, 4, 26, 4, 14, 16, 22, 14, 8};
+//  std::vector<size_t> tks{3, 4, 5, 6, 7, 3, 4, 15, 4, 14, 16, 4, 14, 8, 14, 15, 16};
+  std::deque<size_t> analysis_stack;
+  analysis_stack.push_back(EOT);
+  analysis_stack.push_front(0);
+  int p = 0;
+  while (!analysis_stack.empty()) {
+    if (analysis_stack.front() == EPSILON) {
+      analysis_stack.pop_front();
+    }
+    if (analysis_stack.front() != tks[p]) {
+      auto production = select_[analysis_stack.front()][tks[p]];
+
+      std::string pd = token_map_re_[production.first] + " -> ";
+      for (const auto &r : production.second) {
+        pd += token_map_re_[r] + " ";
+      }
+      spdlog::info("[{}, {}]: {}", token_map_re_[analysis_stack.front()], token_map_re_[tks[p]], pd);
+
+      auto right = production.second;
+      analysis_stack.pop_front();
+      std::reverse(right.begin(), right.end());
+      for (const auto &item : right) {
+        analysis_stack.push_front(item);
+      }
+    } else if (analysis_stack.front() == tks[p]) {
+      analysis_stack.pop_front();
+      p++;
+    }
+  }
+  if (p == tks.size()) {
+    spdlog::info("SUCCESS");
+  } else {
+    spdlog::error("ERROR OCCURRED WHEN DOING THE GRAMMAR ANALYSIS");
+    std::string input{};
+    for (int i = 0; i < tks.size(); ++i) {
+      if (i == p) {
+        input += "[error] ";
+      }
+      input += token_map_re_[tks[i]] + " ";
+    }
+    spdlog::error("You have an error in your syntax");
+    spdlog::error("the error may happens here: {}", input);
   }
 }
 
