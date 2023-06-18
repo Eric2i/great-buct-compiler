@@ -5,6 +5,10 @@ letter: A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z|a|b|c|d|e|f|g|h|i|j|
 digits: {digit}+
 letter_: {letter}|_
 RETURN: return
+IF: if
+ELSE: else
+ELSE_IF: elif
+WHILE: while
 TYPE: int|float|double|string
 IDENTIFIER: {letter_}({letter_}|{digit})*
 NUMBER: {digits}(\.{digits})?(E{digits})?
