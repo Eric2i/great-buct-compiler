@@ -218,30 +218,36 @@ void LL1Parser::Analyze(Tokens tokens) {
       tks.push_back(token_map_[item.name()]);
     }
   }
-  std::deque<TokenId> analysis_stack;
-  analysis_stack.push_back(EOT);
-  analysis_stack.push_front(0);
+  std::deque<std::pair<TokenId, ASTNode*>> analysis_stack;
+  analysis_stack.push_back({EOT, {}});
+
+  ASTNode* root = new ASTNode(0);
+  analysis_stack.emplace_front(0, root);
+
   int p = 0;
   while (!analysis_stack.empty()) {
-    if (analysis_stack.front() == EPSILON) {
+    if (analysis_stack.front().first == EPSILON) {
       analysis_stack.pop_front();
     }
-    if (analysis_stack.front() != tks[p]) {
-      auto production = select_[analysis_stack.front()][tks[p]];
+    if (analysis_stack.front().first != tks[p]) {
+      auto production = select_[analysis_stack.front().first][tks[p]];
 
       std::string pd = token_map_re_[production.first] + " -> ";
       for (const auto &r : production.second) {
         pd += token_map_re_[r] + " ";
       }
-      spdlog::info("[{}, {}]: {}", token_map_re_[analysis_stack.front()], token_map_re_[tks[p]], pd);
+      spdlog::info("[{}, {}]: {}", token_map_re_[analysis_stack.front().first], token_map_re_[tks[p]], pd);
 
       auto right = production.second;
+      auto parent = analysis_stack.front();
       analysis_stack.pop_front();
       std::reverse(right.begin(), right.end());
       for (const auto &item : right) {
-        analysis_stack.push_front(item);
+        ASTNode* node = new ASTNode(item);
+        parent.second->AddChild(node);
+        analysis_stack.emplace_front(item, node);
       }
-    } else if (analysis_stack.front() == tks[p]) {
+    } else if (analysis_stack.front().first == tks[p]) {
       analysis_stack.pop_front();
       p++;
     }
@@ -260,6 +266,8 @@ void LL1Parser::Analyze(Tokens tokens) {
     spdlog::error("You have an error in your syntax");
     spdlog::error("the error may happens here: {}", input);
   }
+
+  root->Print();
 }
 
 void LL1Parser::LL1Print(LL1PrintOption option) {

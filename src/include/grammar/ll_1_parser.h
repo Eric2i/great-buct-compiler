@@ -6,7 +6,7 @@
 #define GREAT_BUCT_COMPILER_SRC_GRAMMAR_LL_1_PARSER_H_
 #include "grammar_parser.h"
 #include "unordered_map"
-
+#include "ast.h"
 namespace gbc::grammar {
 
 using FirstOrFollowSet = std::unordered_map<TokenId, std::set<TokenId>>;
