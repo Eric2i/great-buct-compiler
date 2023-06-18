@@ -27,6 +27,14 @@ namespace gbc::lex {
         return this->_pattern;
     }
 
+    attribute_t Token::type() {
+        return this->_type;
+    }
+
+    attribute_t Token::value() {
+        return this->_value;
+    }
+
     bool Token::operator<(const Token &X) const {
         return this->_id < X._id;
     }
