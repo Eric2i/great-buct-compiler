@@ -31,10 +31,11 @@ namespace gbc::lex {
       return line;
     }
 
-    std::vector<std::vector<Token>> LexicalAnalyzer::parse(path &src) {
+    std::vector<std::vector<Token>> LexicalAnalyzer::parse(path &src, path &OUT_FILE) {
         std::vector<std::vector<Token>> parsing_result;
 
         std::ifstream fin(src);
+        std::ofstream fout(OUT_FILE);
         std::string line;
         // get each line of the src code
         while (std::getline(fin, line)) {
@@ -56,9 +57,9 @@ namespace gbc::lex {
             if(!line_tokens.empty()) {
               parsing_result.push_back(line_tokens);
               for(auto i: line_tokens) {
-                std::cerr << "<" << i.name() << ": " << i.unknown() << ">";
+                fout << "<" << i.name() << ": " << i.unknown() << ">";
               }
-                std::cerr << std::endl;
+                fout << std::endl;
             }
         }
         return parsing_result;
