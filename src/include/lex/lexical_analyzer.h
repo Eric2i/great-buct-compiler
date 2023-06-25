@@ -17,7 +17,7 @@ namespace gbc::lex {
         DFA dfa;
     public:
         LexicalAnalyzer(DFA &);
-        std::vector<std::vector<Token>> parse(path &);
+        std::vector<std::vector<Token>> parse(path &, path &);
     };
 
 } // gbc::lex namespace

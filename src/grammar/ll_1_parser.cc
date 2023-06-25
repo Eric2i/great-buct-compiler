@@ -256,16 +256,16 @@ void LL1Parser::Analyze(Tokens tokens) {
     } else if (analysis_stack.front().first.first == tks[p].first) {
       // TODO
       auto res = analysis_stack.front();
-      spdlog::warn("{}", token_map_re_[res.first.first]);
-      if (token_map_re_[res.first.first] == "NUMBER") {
-        res.second->type_ = ASTNode::Type::NUMBER;
-        res.second->id = p;
-        res.second->CodeGen()->print(llvm::errs());
-      } else if (token_map_re_[res.first.first] == "IDENTIFIER") {
-        res.second->type_ = ASTNode::Type::VARIABLE;
-        res.second->id = p;
-        res.second->CodeGen();
-      }
+//      spdlog::warn("{}", token_map_re_[res.first.first]);
+//      if (token_map_re_[res.first.first] == "NUMBER") {
+//        res.second->type_ = ASTNode::Type::NUMBER;
+//        res.second->id = p;
+//        res.second->CodeGen()->print(llvm::errs());
+//      } else if (token_map_re_[res.first.first] == "IDENTIFIER") {
+//        res.second->type_ = ASTNode::Type::VARIABLE;
+//        res.second->id = p;
+//        res.second->CodeGen();
+//      }
       analysis_stack.pop_front();
       p++;
     }
@@ -277,29 +277,30 @@ void LL1Parser::Analyze(Tokens tokens) {
     std::string input{};
     for (int i = 0; i < tks.size(); ++i) {
       if (i == p) {
-        input += "[error] ";
+        input += "@[ERROR]";
       }
-      input += token_map_re_[tks[i].first] + " ";
+      input += tokens[i].unknown() + " ";
     }
     spdlog::error("You have an error in your syntax");
     spdlog::error("the error may happens here: {}", input);
+    exit(0);
   }
-
-  root->Print();
-
-  std::deque<ASTNode *> semantic{root};
-  std::deque<ASTNode *> leafs;
-  while (!semantic.empty()) {
-    auto current_node = semantic.front();
-    semantic.pop_front();
-    if (current_node->children.empty()) {
-      leafs.push_back(current_node);
-    } else {
-      for (const auto &item : current_node->children) {
-        semantic.push_back(item);
-      }
-    }
-  }
+//
+//  root->Print();
+//
+//  std::deque<ASTNode *> semantic{root};
+//  std::deque<ASTNode *> leafs;
+//  while (!semantic.empty()) {
+//    auto current_node = semantic.front();
+//    semantic.pop_front();
+//    if (current_node->children.empty()) {
+//      leafs.push_back(current_node);
+//    } else {
+//      for (const auto &item : current_node->children) {
+//        semantic.push_back(item);
+//      }
+//    }
+//  }
 }
 
 void LL1Parser::LL1Print(LL1PrintOption option) {

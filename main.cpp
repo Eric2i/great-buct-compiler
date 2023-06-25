@@ -1194,8 +1194,8 @@ extern "C" DLLEXPORT double printd(double X) {
 // Main driver code.
 //===----------------------------------------------------------------------===//
 
-
-
+std::string SRC_CODE = "../test/lex/demo.txt";
+std::string OUT_FILE = "";
 auto lexical() {
   gbc::lex::LexicalRules regex;
   std::cerr << "reading Lexical Rules..." << std::endl;
@@ -1208,14 +1208,14 @@ auto lexical() {
   std::cerr << "Minimizing DFA..." << std::endl;
   gbc::lex::DFA minDFA = DFAMinimize(dfa);
 //        show_DFA(minDFA);
-  gbc::lex::path src = "../test/lex/demo.txt";
+  gbc::lex::path src = SRC_CODE;
   gbc::lex::LexicalAnalyzer analyzer(minDFA);
   std::cerr << "Parsing Source Codes..." << std::endl;
-  auto result = analyzer.parse(src);
+  auto result = analyzer.parse(src, OUT_FILE);
   return result;
 }
 
-auto grammar_analyzer_tester() {
+auto grammar_analyzer() {
   auto res = lexical();
   gbc::grammar::LL1Parser parser = gbc::grammar::LL1Parser("../test/syntax_rule.json");
 
@@ -1244,9 +1244,66 @@ auto grammar_analyzer_tester() {
   return parser.PostAnalyze(tks);
 }
 
-int main() {
+void print_help_info() {
+  std::cerr << "Usage: gbc [options] file...\n"
+               "Options:\n"
+               "  -h help\t print this help info\n"
+               "  -v version\t print version info\n"
+               "  -l lexical\t output lexical analysis result\n"
+               "  -g grammar\t output syntax analysis result\n"
+               "  -s semantics\t output semantics analysis result\n"
+               "  -o output\t specify output file\n"
+      ;
+}
 
-  auto res = grammar_analyzer_tester();
+void print_version_info() {
+  std::cerr << "GBC version 0.0.1\n";
+}
+
+
+int main(int argc, char **argv) {
+//  for(int i = 0; i < argc; i++) {
+//    std::cout << std::string(argv[i]) << std::endl;
+//  }
+
+  // print help info if no argument is given
+  if (argc == 1 || (argc == 2 && std::string(argv[1]) == "-h")) {
+    print_help_info();
+    exit(0);
+  }
+    // print version info
+  else if (argc == 2 && std::string(argv[1]) == "-v") {
+    print_version_info();
+    exit(0);
+  }
+  else if (argc == 2 || argc == 3 || argc == 4) {
+    std::cerr << "Wrong number of arguments\n\n";
+    print_help_info();
+    exit(-1);
+  }
+  else if (argc == 5) {
+    // gbc {-l || -g || -s} input_file -o output_file
+    if(std::string(argv[3]) != "-o") {
+      print_help_info();
+      exit(-1);
+    } else {
+      OUT_FILE = argv[4];
+    }
+    if(std::string(argv[1]) == "-l") {
+      SRC_CODE = argv[2];
+      auto lexical_result = lexical();
+      exit(0);
+    } else if(std::string(argv[1]) == "-g") {
+      SRC_CODE = argv[2];
+      auto res = grammar_analyzer();
+      exit(0);
+    }
+
+    std::cout << SRC_CODE << " " << OUT_FILE << std::endl;
+  }
+
+  auto res = grammar_analyzer();
+
   // Install standard binary operators.
   // 1 is lowest precedence.
   BinopPrecedence['<'] = 10;
